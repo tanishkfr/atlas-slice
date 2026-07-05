@@ -1,11 +1,10 @@
 /**
- * The wordmark's icon: a single excerpt from the survey plate itself, at icon
- * scale — the same three primitives the Reasoning Trace uses (see
- * ReasoningTrace.tsx): a faint axis, one evidence tick crossing it, and a
- * weighted point where it resolves, ringed in its halo. Not a separate
- * symbol invented for branding — a direct quotation of the plate's own
- * vocabulary, shrunk to 18px. Carries the accent throughout, at the same
- * relative weights the plate uses (faint axis, full-strength tick and point).
+ * The wordmark's icon: a cartographer's dividers — the actual hinged
+ * instrument used to step off and compare distances on a map, open mid-
+ * measurement rather than symmetric or at rest. Chosen over an invented
+ * abstract glyph because it's a real, specific object with a specific job:
+ * measuring one thing against another, which is what every entry in the
+ * corpus does. The faint arc is the span the two points are scribing.
  */
 export function AtlasMark() {
   return (
@@ -17,27 +16,18 @@ export function AtlasMark() {
       aria-hidden
       className="shrink-0 text-accent transition-transform duration-200 ease-out group-hover:scale-110"
     >
-      <line
-        x1="1.6"
-        y1="9"
-        x2="15.1"
-        y2="9"
+      <path
+        d="M4.3 15.1 Q9 17.1 13.5 14.1"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="round"
-        opacity="0.4"
+        opacity="0.35"
       />
-      <line
-        x1="6.6"
-        y1="6"
-        x2="6.6"
-        y2="12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <circle cx="14" cy="9" r="3.1" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-      <circle cx="14" cy="9" r="1.7" fill="currentColor" />
+      <path d="M9 3 L4.3 15.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M9 3 L13.5 14.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="9" cy="3" r="1.3" fill="currentColor" />
+      <circle cx="4.3" cy="15.1" r="1.1" fill="currentColor" />
+      <circle cx="13.5" cy="14.1" r="1.1" fill="currentColor" />
     </svg>
   )
 }

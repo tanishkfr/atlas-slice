@@ -22,15 +22,22 @@ export function PrincipleCard({ principle, bridge }: PrincipleCardProps) {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-r-sm border-l-2 border-accent bg-gradient-to-r from-accent-soft/60 via-accent-soft/20 to-transparent py-6 pl-6 pr-4 sm:pl-8 sm:pr-6">
+    <div className="relative border-l-2 border-accent py-6 pl-6 pr-4 sm:pl-8 sm:pr-6">
       {bridge && (
         <p className="mb-2 text-[15px] text-ink-soft">{bridge}</p>
       )}
       <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
         The principle
       </p>
-      <p className="mt-2 font-serif text-2xl leading-snug text-ink sm:text-3xl">
-        {principle}
+      {/* A flat highlighter mark behind the line itself, not a card-wide wash —
+          box-decoration-break keeps the highlight following each wrapped line
+          the way a real highlighter would, rather than boxing the paragraph. */}
+      <p className="mt-3 font-serif text-2xl leading-snug text-ink sm:text-3xl">
+        <span
+          className="bg-accent-soft px-1 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
+        >
+          {principle}
+        </span>
       </p>
       <button
         type="button"
