@@ -34,8 +34,15 @@ type MisconceptionAnswerProps = {
  * after it reverts to the normal scroll-triggered rhythm.
  */
 export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerProps) {
-  const [committed, setCommitted] = useState(false)
+  const [guess, setGuess] = useState<'true' | 'false' | null>(null)
   const reduceMotion = useReducedMotion()
+
+  // Every mirrorClaim in the corpus is the false belief being corrected, so
+  // guessing "false" is the correct instinct. The reveal that follows was
+  // identical either way until this existed — a correct guess deserves to
+  // be told it landed, not steamrolled by the same "you were wrong" beat a
+  // wrong guess gets.
+  const guessedCorrectly = guess === 'false'
 
   return (
     <AnswerLayout>
@@ -48,21 +55,36 @@ export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerPr
       {/* Reveal(mirror) + Commit, as one unit — the claim and the prediction belong together */}
       <TrackedBeat>
         <RevealSection>
-          <CommitChoice claim={entry.mirrorClaim} onCommit={() => setCommitted(true)} />
+          <CommitChoice claim={entry.mirrorClaim} onCommit={setGuess} />
         </RevealSection>
       </TrackedBeat>
 
-      {committed && (
+      {guess && (
         <div className="mt-8">
           <TrackedBeat>
+            {/* Acknowledge the actual guess before the shared correction — the
+                one thing missing before: nothing distinguished a correct
+                "false" guess from an incorrect "true" one. Same quiet weight
+                as the Recede line below, not competing with the contradiction. */}
+            <motion.p
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              className="text-sm font-medium text-ink-faint"
+            >
+              {guessedCorrectly
+                ? "You called it. Here's exactly why:"
+                : "A common first guess — here's why it doesn't hold up:"}
+            </motion.p>
+
             {/* Reveal(contradiction) — sharp: short duration, minimal travel, barely any blur.
                 Less displacement than the default reveal, not more — a smaller, quicker
                 arrival reads as sudden without reading as "an animation happened." */}
             <motion.p
               initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(1px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ type: 'spring', duration: 0.22, bounce: 0 }}
-              className="text-pretty font-serif text-2xl text-ink sm:text-3xl"
+              transition={{ type: 'spring', duration: 0.22, bounce: 0, delay: 0.1 }}
+              className="mt-2 text-pretty font-serif text-2xl text-ink sm:text-3xl"
             >
               {entry.contradiction}
             </motion.p>

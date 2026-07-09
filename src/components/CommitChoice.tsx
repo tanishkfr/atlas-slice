@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 type CommitChoiceProps = {
   claim: string
-  onCommit: () => void
+  onCommit: (guess: 'true' | 'false') => void
 }
 
 /**
@@ -12,6 +12,12 @@ type CommitChoiceProps = {
  * guess before finding out. Once clicked, both options recede together
  * (never one highlighted, one dimmed) because neither answer stays live;
  * the prediction was the interaction, not the content.
+ *
+ * The guess itself is still reported to onCommit — the next beat reveals
+ * the same correction either way (every mirrorClaim in the corpus is the
+ * false belief), but which button was pressed has to reach the parent so
+ * it can acknowledge a correct guess instead of playing the identical
+ * "you were wrong" reveal regardless of what was clicked.
  */
 export function CommitChoice({ claim, onCommit }: CommitChoiceProps) {
   const [picked, setPicked] = useState<'true' | 'false' | null>(null)
@@ -20,7 +26,7 @@ export function CommitChoice({ claim, onCommit }: CommitChoiceProps) {
   function handlePick(value: 'true' | 'false') {
     if (picked) return
     setPicked(value)
-    window.setTimeout(onCommit, reduceMotion ? 0 : 450)
+    window.setTimeout(() => onCommit(value), reduceMotion ? 0 : 450)
   }
 
   return (
