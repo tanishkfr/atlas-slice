@@ -212,8 +212,8 @@ function App() {
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-5 max-w-md text-balance text-center text-[15px] leading-relaxed text-ink-soft"
               >
-                Get the reasoning, not just the rule — every answer argued from
-                real, shipped examples.
+                A curated field guide to interaction judgment — every answer
+                argued from real, shipped examples, not a generic rule.
               </motion.p>
               <motion.div
                 initial={reduceMotion ? false : { opacity: 0, y: 12 }}

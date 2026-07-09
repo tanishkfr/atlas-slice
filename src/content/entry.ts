@@ -68,6 +68,31 @@ export type Variable = {
   text: string
 }
 
+/**
+ * One variable, applied to a fresh case: a plain, concrete question about
+ * that specific case (not the abstract variable label), plus the two
+ * answers someone could reasonably pick between.
+ */
+export type TransferPoles = {
+  /** A simple yes/no-shaped question about the transfer case itself, not the abstract variable name. */
+  question: string
+  left: string
+  right: string
+}
+
+/**
+ * The reader's turn: a case deliberately outside the corpus, worked with the
+ * exact same variables. Not graded — a multi-variable question never collapses
+ * to one answer, so the exercise reflects the reader's own placements back
+ * rather than scoring them.
+ */
+export type TransferExercise = {
+  /** A real case Atlas never wrote an entry for. */
+  casePrompt: string
+  /** One pair of poles per variable, in the same order as variables[]. */
+  poles: TransferPoles[]
+}
+
 export type MultiVariableEntry = {
   kind: 'multi-variable'
   query: string
@@ -80,6 +105,8 @@ export type MultiVariableEntry = {
   mapIntro: string
   /** The map itself: names the variables again in compressed form, not a directive. */
   principle: string
+  /** The reader's turn — apply these same variables to a case Atlas never covered. */
+  transfer: TransferExercise
 }
 
 export type Entry =
@@ -346,6 +373,27 @@ export const adaptiveUiEntry: MultiVariableEntry = {
   mapIntro: "None of these three settle it alone. Together, they do.",
   principle:
     "How often someone returns. What a surprise costs. Whether the change explains itself. Hold those three together, and you can answer this for a case Atlas never covered: no fourth rule required.",
+  transfer: {
+    casePrompt:
+      'A code editor floats your most-used commands to the top of its command palette, quietly reordering as your habits shift.',
+    poles: [
+      {
+        question: 'Do people open this command palette many times a day, or only now and then?',
+        left: 'Opened all day',
+        right: 'Opened once in a while',
+      },
+      {
+        question: "Is stumbling onto a new command a nice surprise here, or would it just feel unpredictable?",
+        left: 'Discovery is the point',
+        right: 'Predictability is the point',
+      },
+      {
+        question: 'When a command jumps to a new spot, does the editor explain why — or does it just quietly happen?',
+        left: 'It shows why it moved',
+        right: 'It reorders silently',
+      },
+    ],
+  },
 }
 
 export const accountWallEntry: MultiVariableEntry = {
@@ -371,6 +419,27 @@ export const accountWallEntry: MultiVariableEntry = {
   mapIntro: "No single one of these decides it by itself. Together, they do.",
   principle:
     "Whether there's something to show yet. What the account is really protecting. How people actually arrived. Hold those three together, and a case like this stops needing a rule Atlas never wrote down.",
+  transfer: {
+    casePrompt:
+      'A free background remover: drop an image in the browser, get a clean cut-out back in seconds. Every request runs a paid GPU model.',
+    poles: [
+      {
+        question: 'Can someone see a real, finished result before making an account?',
+        left: 'Works on the first drop',
+        right: 'Nothing to show until stored',
+      },
+      {
+        question: 'Is the account mainly there to stop people from abusing your paid GPU calls?',
+        left: 'Guards a real cost',
+        right: 'Only remembers your work',
+      },
+      {
+        question: 'Do people click in from a shared link expecting instant results, or did they already search for this?',
+        left: 'Arrives by a shared link',
+        right: 'Arrived already committed',
+      },
+    ],
+  },
 }
 
 export const hamburgerMenuEntry: MisconceptionEntry = {
@@ -487,6 +556,27 @@ export const liveSearchEntry: MultiVariableEntry = {
   mapIntro: 'Each one only tells part of it. Put together, they answer it.',
   principle:
     "What each result costs to produce. Whether a partial answer means anything yet. Whether the shifting itself gets in the way. Put those three side by side, and a case like this answers itself without any rule Atlas would have had to write down first.",
+  transfer: {
+    casePrompt:
+      'A store locator: someone types a city, you query a paid mapping API, and matches render on a map they are actively reading.',
+    poles: [
+      {
+        question: 'Does firing this search on every keystroke cost real money, or is it free?',
+        left: 'Free on every keystroke',
+        right: 'Costs money each call',
+      },
+      {
+        question: 'After typing just a few letters of a city, is there already a useful answer — or is it meaningless until the name is complete?',
+        left: 'A few letters narrow it',
+        right: 'Meaningless until complete',
+      },
+      {
+        question: 'Is this shown in a small dropdown that people expect to change, or on a map they are actively reading?',
+        left: 'A dropdown is meant to shift',
+        right: 'A map mid-read should hold still',
+      },
+    ],
+  },
 }
 
 export const placeholderLabelEntry: MisconceptionEntry = {
@@ -566,6 +656,27 @@ export const tooltipTriggerEntry: MultiVariableEntry = {
   mapIntro: "None of the three is optional to check. Skip one, and the tooltip works for fewer people than it should.",
   principle:
     "Whether hover exists at all. Whether a keyboard can reach it. Whether the content is load-bearing or decorative. A tooltip built around only the first one works on exactly one input method, for exactly the people who need the information least.",
+  transfer: {
+    casePrompt:
+      'An info icon explains the format a required Tax ID field expects. It sits on a mobile checkout, and getting the field wrong blocks the order.',
+    poles: [
+      {
+        question: 'Is this checkout mostly used on a phone with no mouse, or on a desktop?',
+        left: 'A phone, with no hover',
+        right: 'Desktop, with a mouse',
+      },
+      {
+        question: 'Can someone using only a keyboard, no mouse, still get to this tooltip?',
+        left: 'Reachable on focus',
+        right: 'Mouse-only',
+      },
+      {
+        question: 'If someone never sees this tooltip, do they still finish the order — or does the order get blocked?',
+        left: 'A decorative aside',
+        right: 'Load-bearing instruction',
+      },
+    ],
+  },
 }
 
 export const progressIndicatorEntry: AtlasEntry = {
@@ -704,6 +815,27 @@ export const swipeGestureEntry: MultiVariableEntry = {
   mapIntro: 'Each of these argues separately. Together, they decide whether the gesture is worth adding at all.',
   principle:
     "A visible fallback. How often the gesture gets used. What happens if it fires by accident. Clear all three, and a swipe gesture earns its place, but the button underneath it still deserves to stay, for whoever never finds the gesture at all.",
+  transfer: {
+    casePrompt:
+      'A reading app lets you swipe a saved article left to delete it for good. The same delete also sits in a menu, and most people clear their list only every few weeks.',
+    poles: [
+      {
+        question: 'Is there also a visible button that deletes the article, or is swiping the only way to do it?',
+        left: 'A menu has it too',
+        right: 'Swipe is the only way',
+      },
+      {
+        question: 'Would someone swipe to delete often enough to remember the gesture, or only every few weeks?',
+        left: 'Used most days',
+        right: 'Used rarely',
+      },
+      {
+        question: 'If this fires by accident, is it a quick undo — or is the article actually gone?',
+        left: 'Seconds to undo',
+        right: 'Loses the thing itself',
+      },
+    ],
+  },
 }
 
 export const emptyStateEntry: AtlasEntry = {
@@ -873,6 +1005,27 @@ export const timestampFormatEntry: MultiVariableEntry = {
   mapIntro: 'None of these argues for one format everywhere. Together, they say when each one earns its place.',
   principle:
     "Urgency decides some of it. Whether someone needs to reference the exact moment later decides more. How old it already is decides the rest. A short-lived comment and a calendar invite were never going to want the same clock.",
+  transfer: {
+    casePrompt:
+      'A "Last backup" line in a settings screen — minutes ago on a device in daily use, or months ago on one nobody has opened.',
+    poles: [
+      {
+        question: 'Is this the kind of thing worth a quick glance right now, or does it carry no real urgency?',
+        left: 'Live, worth a glance now',
+        right: 'Static, no urgency',
+      },
+      {
+        question: "Will anyone need to point to this exact moment later, or is a rough sense of 'recently' enough?",
+        left: 'Only noticed, never cited',
+        right: 'Referenced precisely later',
+      },
+      {
+        question: 'Is this usually just minutes old, or could it realistically be months old?',
+        left: 'Minutes old',
+        right: 'Possibly months old',
+      },
+    ],
+  },
 }
 
 export const notificationGranularityEntry: MultiVariableEntry = {
@@ -898,6 +1051,27 @@ export const notificationGranularityEntry: MultiVariableEntry = {
   mapIntro: 'Each of these pulls in its own direction. Where they land together is the actual answer for a given product.',
   principle:
     "Some notification types matter more than others; one switch can't tell them apart, and past a certain count, neither can twenty separate ones.",
+  transfer: {
+    casePrompt:
+      'A project tool sends assignment alerts, comment replies, due-date reminders, and one weekly summary. You are shaping its notification settings.',
+    poles: [
+      {
+        question: 'Do people care about all four of these alert types equally, or are some worth interrupting for and others not?',
+        left: 'Every type equally worth it',
+        right: 'Some worth interrupting, some not',
+      },
+      {
+        question: 'Could one noisy type, say every comment reply, push someone to just turn off all notifications?',
+        left: 'One loud type risks all-off',
+        right: 'No type drowns the rest',
+      },
+      {
+        question: 'Is four categories a manageable set of switches, or would someone need many more to feel in control?',
+        left: 'A handful of categories',
+        right: 'Twenty separate switches',
+      },
+    ],
+  },
 }
 
 export const iconLabelEntry: MisconceptionEntry = {
@@ -1014,6 +1188,27 @@ export const settingsApplyEntry: MultiVariableEntry = {
   mapIntro: 'Each of these can point the same setting in a different direction. Together, they decide it.',
   principle:
     "Reversibility, whether it's isolated or bundled with other fields, and whether anyone besides you sees the effect. A toggle earns instant effect by clearing all three; failing any one of them is reason enough to ask first.",
+  transfer: {
+    casePrompt:
+      'A dropdown sets who can open a shared document by default — anyone with the link, or invited people only. It sits alone atop the share panel.',
+    poles: [
+      {
+        question: 'Can this permission be flipped back just as easily as it was changed?',
+        left: 'Flip it back instantly',
+        right: 'Hard to undo once set',
+      },
+      {
+        question: 'Does this dropdown sit alone on the panel, or is it one field inside a longer form with its own save?',
+        left: 'A single isolated control',
+        right: 'One field among many',
+      },
+      {
+        question: "Does changing this only affect what you see, or does it change what other people can now access?",
+        left: 'Only you see the effect',
+        right: 'Changes what others see',
+      },
+    ],
+  },
 }
 
 export const pullToRefreshEntry: RuleInversionEntry = {

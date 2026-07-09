@@ -1,4 +1,5 @@
 import { ArrowLeft } from '@phosphor-icons/react'
+import { allEntries } from '../content/entry'
 
 type AboutAtlasProps = {
   onBack: () => void
@@ -38,6 +39,27 @@ export function AboutAtlas({ onBack }: AboutAtlasProps) {
       </div>
 
       <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+        On the four shapes
+      </p>
+      <div className="mt-6 space-y-4">
+        <p className="text-[15px] leading-relaxed text-ink-soft">
+          The four shapes are a proposed lens, not a proven partition. They
+          weren't derived from a dataset; they emerged from writing the entries
+          and noticing the reasoning kept falling into the same handful of moves.
+          That's an honest origin and also a real limit: the recurrence the
+          Survey shows is partly a finding and partly a consequence of having
+          authored each question into a shape in the first place.
+        </p>
+        <p className="text-[15px] leading-relaxed text-ink-soft">
+          What would make it more than a lens is the thing it doesn't have yet —
+          a second reader classifying the same questions blind, to test whether
+          the shapes live in the reasoning or only in how one person chose to
+          tell it. Until then, treat the four as a useful way to read interaction
+          arguments, not a claim that there are exactly four.
+        </p>
+      </div>
+
+      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
         How this was actually built
       </p>
 
@@ -68,6 +90,36 @@ export function AboutAtlas({ onBack }: AboutAtlasProps) {
             A small margin note that echoed what you'd already scrolled past existed for a while, got reworked once for being too quiet to register as intentional, reworked again for looking overdone once it was more visible, and was eventually removed outright. Three attempts at the same small idea before concluding it was never earning the complexity it cost.
           </p>
         </div>
+      </div>
+
+      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+        Where it stands
+      </p>
+      <div className="mt-6 space-y-4">
+        <p className="text-[15px] leading-relaxed text-ink-soft">
+          Atlas is single-authored: {allEntries.length} entries, each argued from
+          at least two real cases and run through a fixed set of editorial gates
+          before shipping. One decision shaped the rest of it — when a question
+          has no entry, Atlas says so, rather than generating a plausible-sounding
+          answer. Wiring in a model that could fabricate an argument would have
+          made it feel more complete and meant less: the whole premise is evidence
+          you can check, and a generated answer is exactly the thing you can't.
+        </p>
+        <p className="text-[15px] leading-relaxed text-ink-soft">
+          What it hasn't done yet is meet a learner. The claim that this teaches
+          transferable judgment is, so far, argued rather than tested. The "Now
+          you" exercise on the open-ended questions is the first attempt to close
+          that gap — to make a reader do the reasoning instead of only watch it —
+          but whether it works is a question only real readers can answer.
+        </p>
+        {/*
+          TODO — author's voice. Replace or follow this with one honest,
+          first-person paragraph: why *you* started this, and the one thing
+          making it changed your mind about. That personal note is the single
+          thing this section can't be written for you — it has to be yours, so
+          it's deliberately left blank rather than filled with a plausible
+          stand-in. Delete this comment once you've written it.
+        */}
       </div>
     </div>
   )

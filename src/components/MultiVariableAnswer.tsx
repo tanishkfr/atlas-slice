@@ -4,6 +4,7 @@ import { PrincipleCard } from './PrincipleCard'
 import { AnswerLayout } from './AnswerLayout'
 import { TrackedBeat } from './TrackedBeat'
 import { SettleBeat } from './SettleBeat'
+import { TransferExercise } from './TransferExercise'
 
 type MultiVariableAnswerProps = {
   entry: MultiVariableEntry
@@ -84,6 +85,13 @@ export function MultiVariableAnswer({ entry, askedQuery }: MultiVariableAnswerPr
         <RevealSection weight="principle">
           <PrincipleCard principle={entry.principle} bridge={entry.mapIntro} />
         </RevealSection>
+      </div>
+
+      {/* The reader's turn — the map's actual claim is that these variables
+          travel, so here they carry it to a case Atlas never covered. Placed
+          after the principle: read the map first, then use it. */}
+      <div className="mt-16">
+        <TransferExercise entry={entry} />
       </div>
     </AnswerLayout>
   )

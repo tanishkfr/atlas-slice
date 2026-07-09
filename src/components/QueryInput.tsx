@@ -31,9 +31,47 @@ const rotatingPrompts = [
   'Should I use pull-to-refresh, or a visible refresh button?',
 ]
 
+// Words too common to signal what a question is actually about — matching on
+// them would rank every entry equally, which is no ranking at all.
+const STOP_WORDS = new Set([
+  'the', 'a', 'an', 'to', 'is', 'it', 'i', 'should', 'of', 'for', 'on', 'in',
+  'or', 'and', 'my', 'this', 'that', 'with', 'do', 'does', 'be', 'are', 'use',
+  'using', 'when', 'how', 'if', 'me', 'my', 'we', 'can', 'need',
+])
+
+function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((t) => t.length > 2 && !STOP_WORDS.has(t))
+}
+
+// When nothing matches outright, a miss shouldn't be a dead end. Rank the
+// corpus by how many meaningful words a query shares with each entry's own
+// question and keywords, and surface the nearest few — an honest "not this
+// exactly, but here's the closest thing Atlas does cover."
+function rankClosest(text: string): Entry[] {
+  const tokens = tokenize(text)
+  if (tokens.length === 0) return []
+  return allEntries
+    .map((entry) => {
+      const haystack = new Set([
+        ...tokenize(entry.query),
+        ...entry.keywords.flatMap(tokenize),
+      ])
+      const score = tokens.reduce((sum, t) => sum + (haystack.has(t) ? 1 : 0), 0)
+      return { entry, score }
+    })
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((s) => s.entry)
+}
+
 export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps) {
   const [value, setValue] = useState('')
   const [miss, setMiss] = useState(false)
+  const [closest, setClosest] = useState<Entry[]>([])
   const [promptIndex, setPromptIndex] = useState(0)
   const reduceMotion = useReducedMotion() ?? false
 
@@ -67,6 +105,7 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
       setMiss(false)
       onAsk(trimmed, match)
     } else {
+      setClosest(rankClosest(trimmed))
       setMiss(true)
     }
   }
@@ -186,22 +225,47 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
         style={{ gridTemplateRows: miss ? '1fr' : '0fr' }}
       >
         <div className="overflow-hidden">
-          <p
-            className={`mt-3 text-sm text-ink-soft transition-all duration-300 ease-out ${
+          <div
+            className={`mt-3 transition-all duration-300 ease-out ${
               miss ? 'translate-y-0 opacity-100' : '-translate-y-1 opacity-0'
             }`}
           >
-            Atlas answers a curated set of questions right now — try one of the
-            examples above, or browse the full{' '}
-            <button
-              type="button"
-              onClick={onShowIndex}
-              className="rounded-sm text-accent underline decoration-accent/30 underline-offset-2 transition-colors duration-150 hover:decoration-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-            >
-              index
-            </button>
-            .
-          </p>
+            {closest.length > 0 ? (
+              <>
+                <p className="text-sm text-ink-soft">
+                  Atlas doesn't have that exact question yet. The closest cases it
+                  does cover:
+                </p>
+                <ul className="mt-3 flex flex-col gap-2.5">
+                  {closest.map(renderExample)}
+                </ul>
+                <p className="mt-4 text-xs text-ink-faint">
+                  Or browse the full{' '}
+                  <button
+                    type="button"
+                    onClick={onShowIndex}
+                    className="rounded-sm underline decoration-line underline-offset-2 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    index
+                  </button>
+                  .
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-ink-soft">
+                Atlas answers a curated set of questions right now — try one of the
+                examples above, or browse the full{' '}
+                <button
+                  type="button"
+                  onClick={onShowIndex}
+                  className="rounded-sm text-accent underline decoration-accent/30 underline-offset-2 transition-colors duration-150 hover:decoration-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                >
+                  index
+                </button>
+                .
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
