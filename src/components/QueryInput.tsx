@@ -7,17 +7,11 @@ import { ExampleLink } from './ExampleLink'
 type QueryInputProps = {
   onAsk: (query: string, entry: Entry) => void
   onShowIndex: () => void
-  onShowFigure: () => void
 }
 
-// A deliberately curated, fixed-size set, not the first N — chosen to
-// show the range of what Atlas does (a branch, a misconception, a
-// multi-variable), not just the order entries happen to be authored in.
-const featuredQueries = [
-  'Should I confirm before deleting a file?',
-  'Is dark mode more accessible?',
-  'Should the interface adapt to usage, or stay the same for everyone every time?',
-]
+// Two short, deliberately different-shaped examples — enough to gesture at
+// the range without needing a list and its own heading.
+const featuredQueries = ['Should I confirm before deleting a file?', 'Is dark mode more accessible?']
 
 // Real corpus questions, cycled through the empty field as living examples of
 // what Atlas can actually answer. Kept to the shorter ones so none has to wrap.
@@ -68,7 +62,7 @@ function rankClosest(text: string): Entry[] {
     .map((s) => s.entry)
 }
 
-export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps) {
+export function QueryInput({ onAsk, onShowIndex }: QueryInputProps) {
   const [value, setValue] = useState('')
   const [miss, setMiss] = useState(false)
   const [closest, setClosest] = useState<Entry[]>([])
@@ -124,11 +118,13 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
     )
   }
 
-  const featured = allEntries.filter((entry) => featuredQueries.includes(entry.query))
+  const featured = featuredQueries
+    .map((q) => allEntries.find((entry) => entry.query === q))
+    .filter((e): e is Entry => e !== undefined)
   const hasValue = value.trim().length > 0
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full max-w-md">
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <div className="group relative flex items-center gap-3">
           <div className="relative flex-1">
@@ -192,32 +188,32 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
         </div>
       </form>
 
-      <div className="mt-9 w-full">
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-          Examples
-        </p>
-        <ul className="mt-3 flex flex-col gap-2.5">{featured.map(renderExample)}</ul>
-
-        <p className="mt-4 text-xs text-ink-faint">
-          Atlas covers {allEntries.length} questions like these.{' '}
-          <button
-            type="button"
-            onClick={onShowIndex}
-            className="rounded-sm underline decoration-line underline-offset-2 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-          >
-            See them all
-          </button>
-          , or{' '}
-          <button
-            type="button"
-            onClick={onShowFigure}
-            className="rounded-sm underline decoration-line underline-offset-2 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-          >
-            see the shape behind all of them
-          </button>
-          .
-        </p>
-      </div>
+      {/* One quiet line instead of a headed list — enough to ground the input
+          without building a second competing block of content underneath it. */}
+      <p className="mt-4 max-w-sm text-center text-xs leading-relaxed text-ink-faint">
+        Try{' '}
+        {featured.map((entry, i) => (
+          <span key={entry.query}>
+            <button
+              type="button"
+              onClick={() => askSuggested(entry)}
+              className="rounded-sm underline decoration-line underline-offset-2 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              “{entry.query}”
+            </button>
+            {i < featured.length - 1 ? ' or ' : ''}
+          </span>
+        ))}
+        , or{' '}
+        <button
+          type="button"
+          onClick={onShowIndex}
+          className="rounded-sm underline decoration-line underline-offset-2 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          browse all {allEntries.length}
+        </button>
+        .
+      </p>
 
       <div
         className="grid transition-[grid-template-rows] duration-300 ease-out"
