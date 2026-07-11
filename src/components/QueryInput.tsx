@@ -139,9 +139,9 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
                 setValue(e.target.value)
                 if (miss) setMiss(false)
               }}
-              placeholder={reduceMotion ? 'Ask an interaction design question…' : ''}
+              placeholder={reduceMotion ? 'Ask a question…' : ''}
               aria-label="Ask an interaction design question"
-              className="peer w-full bg-transparent py-4 text-xl text-ink caret-accent placeholder:text-ink-faint outline-none font-sans"
+              className="peer w-full min-w-0 bg-transparent py-3.5 text-lg text-ink caret-accent placeholder:text-ink-faint outline-none font-sans"
             />
 
             {/* Rotating suggestions, shown only while the field is empty. */}
@@ -157,7 +157,7 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: '-0.55em', opacity: 0 }}
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="block truncate font-sans text-xl text-ink-faint"
+                    className="block truncate font-sans text-lg text-ink-faint"
                   >
                     {rotatingPrompts[promptIndex]}
                   </motion.span>
@@ -168,7 +168,7 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
 
           <button
             type="submit"
-            className={`group/btn inline-flex shrink-0 items-center gap-1.5 rounded-sm px-5 py-2.5 text-sm font-medium text-paper transition-[transform,background-color,box-shadow] duration-150 hover:scale-[1.02] active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${
+            className={`group/btn inline-flex shrink-0 items-center gap-1.5 rounded-sm px-4 py-2 text-sm font-medium text-paper transition-[transform,background-color,box-shadow] duration-150 hover:scale-[1.02] active:scale-[0.97] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${
               hasValue ? 'bg-ink shadow-sm shadow-ink/15' : 'bg-ink/90 hover:bg-ink'
             }`}
           >
@@ -192,7 +192,7 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
         </div>
       </form>
 
-      <div className="mt-12 w-full">
+      <div className="mt-9 w-full">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
           Examples
         </p>

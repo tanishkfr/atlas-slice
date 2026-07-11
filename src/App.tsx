@@ -12,6 +12,7 @@ import { RuleInversionAnswer } from './components/RuleInversionAnswer'
 import { MultiVariableAnswer } from './components/MultiVariableAnswer'
 import { AtlasMark } from './components/AtlasMark'
 import { ExampleLink } from './components/ExampleLink'
+import { ReasoningTrace } from './components/ReasoningTrace'
 import {
   deleteConfirmationEntry,
   darkModeEntry,
@@ -19,6 +20,12 @@ import {
   adaptiveUiEntry,
   type Entry,
 } from './content/entry'
+
+// The same four kinds the corpus and the Survey use, drawn small and
+// unlabeled beneath the hero — a two-second visual proof of the headline's
+// claim, before anything is explained. Left unnamed on purpose: naming the
+// shapes only happens once, inside Reason-it, where naming them is the point.
+const heroShapes: Entry['kind'][] = ['branch', 'misconception', 'rule-inversion', 'multi-variable']
 
 function renderAnswer(entry: Entry, askedQuery: string) {
   switch (entry.kind) {
@@ -226,7 +233,7 @@ function App() {
               animate={{ opacity: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
               transition={{ duration: 0.3 }}
-              className="flex w-full flex-col items-center pb-24 pt-[10vh] sm:pt-[14vh]"
+              className="flex w-full flex-col items-center pb-24 pt-[9vh] sm:pt-[11vh]"
             >
               <motion.h1
                 initial={reduceMotion ? false : { opacity: 0, y: 12, filter: 'blur(4px)' }}
@@ -247,46 +254,88 @@ function App() {
                 aren’t the point. Learning to reason the ones it doesn’t have is.
               </motion.p>
 
-              {/* Primary path — the reader does the reasoning. */}
+              {/* The claim, made visible before it's explained: four small,
+                  unlabeled traces — the same silhouettes the Survey and
+                  Reason-it use — so "shape" stops being a metaphor in the
+                  first five seconds on the page. */}
               <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.24 }}
+                className="mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 sm:gap-x-9"
+                aria-hidden
+              >
+                {heroShapes.map((kind, i) => (
+                  <div key={kind} className="w-[92px] sm:w-[104px]">
+                    <ReasoningTrace ghostKind={kind} delay={0.4 + i * 0.1} />
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* The two paths, weighted so the choice is obvious at a glance
+                  rather than read top to bottom: reasoning it yourself is the
+                  filled, primary card; the corpus lookup is the quieter one. */}
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-9 flex flex-col items-center"
+                transition={{ duration: 0.6, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-12 grid w-full max-w-4xl grid-cols-1 items-start gap-4 lg:grid-cols-2"
               >
                 <button
                   type="button"
                   onClick={openReason}
-                  className="group inline-flex items-center gap-2 rounded-sm bg-ink px-6 py-3 text-sm font-medium text-paper transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  className="group flex flex-col items-start rounded-sm bg-ink px-7 py-8 text-left transition-transform duration-150 hover:scale-[1.008] active:scale-[0.99] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:px-8 sm:py-9"
                 >
-                  Reason a question yourself
-                  <ArrowRight
-                    size={15}
-                    weight="bold"
-                    className="transition-transform duration-200 ease-out group-hover:translate-x-1"
-                  />
-                </button>
-                <p className="mt-3 max-w-xs text-balance text-center text-xs leading-relaxed text-ink-faint">
-                  Bring a question — even one Atlas has never covered — and work it
-                  out with the method.
-                </p>
-              </motion.div>
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent/90">
+                    Start here
+                  </p>
+                  <p className="mt-3 text-pretty font-serif text-2xl leading-snug text-paper sm:text-[26px]">
+                    Reason a question yourself
+                  </p>
+                  <p className="mt-3 max-w-sm text-pretty text-[14px] leading-relaxed text-paper/65">
+                    Bring a question — even one Atlas has never covered — and work
+                    it out with the method every entry here was built on.
+                  </p>
 
-              {/* Secondary path — look up a worked example from the corpus. */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-14 flex w-full flex-col items-center border-t border-line pt-12"
-              >
-                <p className="mb-6 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-                  Or look up a worked example
-                </p>
-                <QueryInput
-                  onAsk={handleAsk}
-                  onShowIndex={() => setShowIndex(true)}
-                  onShowFigure={() => setShowFigure(true)}
-                />
+                  {/* A quiet preview of the flow's own five steps, condensed to
+                      three — sets expectations before the reader commits. */}
+                  <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper/45">
+                    <span>Diagnose</span>
+                    <ArrowRight size={10} weight="bold" />
+                    <span>Work it</span>
+                    <ArrowRight size={10} weight="bold" />
+                    <span>Land it</span>
+                  </div>
+
+                  <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-paper">
+                    Start
+                    <ArrowRight
+                      size={15}
+                      weight="bold"
+                      className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                    />
+                  </span>
+                </button>
+
+                <div className="flex flex-col rounded-sm border border-line px-7 py-8 sm:px-8 sm:py-9">
+                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+                    Or look one up
+                  </p>
+                  <p className="mt-3 text-pretty font-serif text-2xl leading-snug text-ink sm:text-[26px]">
+                    A worked example
+                  </p>
+                  <p className="mt-3 max-w-sm text-pretty text-[14px] leading-relaxed text-ink-soft">
+                    See how Atlas argues an answer it already has — from real,
+                    shipped evidence, not a generic rule.
+                  </p>
+                  <div className="mt-6">
+                    <QueryInput
+                      onAsk={handleAsk}
+                      onShowIndex={() => setShowIndex(true)}
+                      onShowFigure={() => setShowFigure(true)}
+                    />
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}
