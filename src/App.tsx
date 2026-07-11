@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ArrowRight } from '@phosphor-icons/react'
 import { QueryInput } from './components/QueryInput'
 import { QuestionIndex } from './components/QuestionIndex'
 import { AboutAtlas } from './components/AboutAtlas'
 import { Figure } from './components/Figure'
+import { ReasonIt } from './components/ReasonIt'
 import { AtlasAnswer } from './components/AtlasAnswer'
 import { MisconceptionAnswer } from './components/MisconceptionAnswer'
 import { RuleInversionAnswer } from './components/RuleInversionAnswer'
@@ -55,20 +57,30 @@ function App() {
   const [showIndex, setShowIndex] = useState(false)
   const [showAbout, setShowAbout] = useState(false)
   const [showFigure, setShowFigure] = useState(false)
+  const [showReason, setShowReason] = useState(false)
   const reduceMotion = useReducedMotion()
 
-  function handleAsk(query: string, entry: Entry) {
-    setShowIndex(false)
-    setShowAbout(false)
-    setShowFigure(false)
-    setAsked({ query, entry })
-  }
-
-  function goHome() {
+  function closeAll() {
     setAsked(null)
     setShowIndex(false)
     setShowAbout(false)
     setShowFigure(false)
+    setShowReason(false)
+  }
+
+  function handleAsk(query: string, entry: Entry) {
+    closeAll()
+    setAsked({ query, entry })
+  }
+
+  function openReason() {
+    closeAll()
+    setShowReason(true)
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
+  }
+
+  function goHome() {
+    closeAll()
   }
 
   return (
@@ -89,13 +101,22 @@ function App() {
           </p>
         </button>
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-5 sm:gap-6">
+          <button
+            type="button"
+            onClick={openReason}
+            className="group relative rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            Reason it
+            <span
+              aria-hidden
+              className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent/70 transition-transform duration-200 ease-out group-hover:scale-x-100"
+            />
+          </button>
           <button
             type="button"
             onClick={() => {
-              setAsked(null)
-              setShowIndex(false)
-              setShowAbout(false)
+              closeAll()
               setShowFigure(true)
             }}
             className="group relative rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
@@ -109,9 +130,7 @@ function App() {
           <button
             type="button"
             onClick={() => {
-              setAsked(null)
-              setShowIndex(false)
-              setShowFigure(false)
+              closeAll()
               setShowAbout(true)
             }}
             className="group relative rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
@@ -189,6 +208,17 @@ function App() {
             >
               <Figure onBack={() => setShowFigure(false)} onAsk={handleAsk} />
             </motion.div>
+          ) : showReason ? (
+            <motion.div
+              key="reason"
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex w-full flex-col items-center pb-32 pt-16 sm:pt-24"
+            >
+              <ReasonIt onBack={() => setShowReason(false)} onOpenEntry={(entry) => handleAsk(entry.query, entry)} />
+            </motion.div>
           ) : (
             <motion.div
               key="input"
@@ -196,31 +226,62 @@ function App() {
               animate={{ opacity: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
               transition={{ duration: 0.3 }}
-              className="flex min-h-[70vh] w-full flex-col items-center justify-center"
+              className="flex w-full flex-col items-center pb-24 pt-[10vh] sm:pt-[14vh]"
             >
               <motion.h1
                 initial={reduceMotion ? false : { opacity: 0, y: 12, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="max-w-2xl text-balance text-center font-serif text-4xl leading-[1.1] text-ink sm:text-5xl"
+                className="max-w-2xl text-balance text-center font-serif text-4xl leading-[1.08] text-ink sm:text-5xl"
               >
-                Ask one interaction design question.
+                Every interaction question has a shape.
               </motion.h1>
               <motion.p
                 initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-5 max-w-md text-balance text-center text-[15px] leading-relaxed text-ink-soft"
+                className="mt-5 max-w-lg text-balance text-center text-[15px] leading-relaxed text-ink-soft"
               >
-                A curated field guide to interaction judgment — every answer
-                argued from real, shipped examples, not a generic rule.
+                Atlas is a field guide to interaction judgment — every answer argued
+                from real, shipped examples, not a generic rule. But the answers
+                aren’t the point. Learning to reason the ones it doesn’t have is.
               </motion.p>
+
+              {/* Primary path — the reader does the reasoning. */}
               <motion.div
                 initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-10 w-full flex justify-center"
+                className="mt-9 flex flex-col items-center"
               >
+                <button
+                  type="button"
+                  onClick={openReason}
+                  className="group inline-flex items-center gap-2 rounded-sm bg-ink px-6 py-3 text-sm font-medium text-paper transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                >
+                  Reason a question yourself
+                  <ArrowRight
+                    size={15}
+                    weight="bold"
+                    className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                  />
+                </button>
+                <p className="mt-3 max-w-xs text-balance text-center text-xs leading-relaxed text-ink-faint">
+                  Bring a question — even one Atlas has never covered — and work it
+                  out with the method.
+                </p>
+              </motion.div>
+
+              {/* Secondary path — look up a worked example from the corpus. */}
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-14 flex w-full flex-col items-center border-t border-line pt-12"
+              >
+                <p className="mb-6 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+                  Or look up a worked example
+                </p>
                 <QueryInput
                   onAsk={handleAsk}
                   onShowIndex={() => setShowIndex(true)}

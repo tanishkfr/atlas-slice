@@ -107,10 +107,11 @@ export function AboutAtlas({ onBack }: AboutAtlasProps) {
         </p>
         <p className="text-[15px] leading-relaxed text-ink-soft">
           What it hasn't done yet is meet a learner. The claim that this teaches
-          transferable judgment is, so far, argued rather than tested. The "Now
-          you" exercise on the open-ended questions is the first attempt to close
-          that gap — to make a reader do the reasoning instead of only watch it —
-          but whether it works is a question only real readers can answer.
+          transferable judgment is, so far, argued rather than tested. The
+          Reason-it exercise — where you diagnose a question the corpus never
+          covers and work it out with the shape's method, rather than only watch
+          Atlas do it — is the attempt to close that gap. Whether it actually
+          transfers is a question only real readers can answer.
         </p>
         {/*
           TODO — author's voice. Replace or follow this with one honest,

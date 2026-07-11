@@ -142,7 +142,6 @@ export function QueryInput({ onAsk, onShowIndex, onShowFigure }: QueryInputProps
               placeholder={reduceMotion ? 'Ask an interaction design question…' : ''}
               aria-label="Ask an interaction design question"
               className="peer w-full bg-transparent py-4 text-xl text-ink caret-accent placeholder:text-ink-faint outline-none font-sans"
-              autoFocus
             />
 
             {/* Rotating suggestions, shown only while the field is empty. */}
