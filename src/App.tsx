@@ -271,43 +271,77 @@ function App() {
                 ))}
               </motion.div>
 
-              {/* One unambiguous action — everything else on this page exists
-                  to earn this button, not to compete with it. */}
+              {/* Two genuinely different, genuinely valid paths — framed as a
+                  fork, the same shape Atlas draws for exactly this situation
+                  elsewhere (a real choice, not a primary action and an
+                  afterthought). No ticks, no weight dot: those mark real
+                  evidence on an entry's own trace, and this isn't one — just
+                  a quiet echo of the same idea, undecorated. */}
               <motion.div
                 initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-10 flex flex-col items-center"
+                className="mt-12 flex flex-col items-center"
               >
-                <button
-                  type="button"
-                  onClick={openReason}
-                  className="group inline-flex items-center gap-2 rounded-sm bg-ink px-6 py-3 text-sm font-medium text-paper transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                <svg
+                  width="96"
+                  height="34"
+                  viewBox="0 0 96 34"
+                  fill="none"
+                  aria-hidden
+                  className="text-ink-faint"
                 >
-                  Reason a question yourself
-                  <ArrowRight
-                    size={15}
-                    weight="bold"
-                    className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                  <circle cx="4" cy="17" r="1.6" fill="currentColor" />
+                  <path d="M4 17 H24" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.6" />
+                  <path
+                    d="M24 17 C36 17 40 6 54 6 H92"
+                    stroke="currentColor"
+                    strokeWidth="1.1"
+                    strokeLinecap="round"
+                    opacity="0.6"
                   />
-                </button>
-                <p className="mt-3 max-w-xs text-balance text-center text-xs leading-relaxed text-ink-faint">
-                  Bring a question — even one Atlas has never covered.
-                </p>
-              </motion.div>
+                  <path
+                    d="M24 17 C36 17 40 28 54 28 H92"
+                    stroke="currentColor"
+                    strokeWidth="1.1"
+                    strokeLinecap="round"
+                    opacity="0.6"
+                  />
+                  <circle cx="92" cy="6" r="1.8" fill="var(--color-paper)" stroke="currentColor" strokeWidth="1.1" />
+                  <circle cx="92" cy="28" r="1.8" fill="var(--color-paper)" stroke="currentColor" strokeWidth="1.1" />
+                </svg>
 
-              {/* A quiet, low-weight fallback — present, but never competing
-                  with the button above for attention. */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.44 }}
-                className="mt-16 flex w-full flex-col items-center border-t border-line pt-10"
-              >
-                <p className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-                  Or ask about one Atlas already covers
+                <div className="mt-5 flex flex-col items-center">
+                  <button
+                    type="button"
+                    onClick={openReason}
+                    className="group inline-flex items-center gap-2 rounded-sm bg-ink px-6 py-3 text-sm font-medium text-paper transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    Reason a question yourself
+                    <ArrowRight
+                      size={15}
+                      weight="bold"
+                      className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                    />
+                  </button>
+                  <p className="mt-3 max-w-[260px] text-balance text-center text-xs leading-relaxed text-ink-faint">
+                    You work it out — Atlas gives you the method, not the answer.
+                  </p>
+                </div>
+
+                <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-faint">
+                  or
                 </p>
-                <QueryInput onAsk={handleAsk} onShowIndex={() => setShowIndex(true)} />
+
+                <div className="mt-8 flex w-full flex-col items-center">
+                  <p className="max-w-[280px] text-balance text-center text-xs leading-relaxed text-ink-faint">
+                    Get an existing, evidence-backed answer instantly, for a
+                    question Atlas already covers.
+                  </p>
+                  <div className="mt-5 w-full">
+                    <QueryInput onAsk={handleAsk} onShowIndex={() => setShowIndex(true)} />
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           )}
