@@ -1,51 +1,61 @@
-# Atlas — Case Study
+# Atlas — Stress Trace 01
 
-## A map of how a principle changes under pressure
+> **Context:** Self-directed research-through-design
+> **Year:** 2026
+> **Duration:** Ongoing in 2026
+> **Role:** Independent designer, researcher, editor, and engineer
+> **Status:** Working research instrument with a supporting single-authored corpus
+> **Tools:** React, TypeScript, Vite, Framer Motion, Tailwind CSS
+> **AI disclosure:** AI-assisted ideation, critique, source discovery, and code iteration; sources were checked against their primary pages, and final concept selection, design decisions, editing, and authorship are by Tanishk Salagame.
+> **Live:** https://atlas-slice.vercel.app/
+> **Source:** https://github.com/tanishkfr/atlas-slice
 
-Atlas investigates whether interaction-design knowledge can travel beyond the case that produced it. Its central question is: **can a designer learn a reusable way to reason, rather than another answer to remember?**
+## Proposition
 
-The project’s evidence corpus still matters, but it is no longer the main experience. The project now begins with an unfinished principle and ends with a visible lineage of reasoning.
+**An interaction principle is only as useful as the distant cases it survives.**
 
-## The contribution: the stress trace
+Atlas asks whether design reasoning can be made inspectable without turning judgment into an answer generator.
 
-A visitor writes a provisional rule for one open interaction question: *Should tapping outside a dialog close it?* Atlas does not grade or complete the rule. Instead, it carries the claim through three authored cases selected for intellectual distance:
+## Instrument
 
-- a reversible photo lightbox;
-- a destructive international-transfer review;
-- a dialog navigated without a pointer.
+The visitor writes a principle for one question: when should tapping outside a dialog close it?
 
-Each case changes what counts as relevant evidence. The visitor decides whether the principle held or fractured, revises it when necessary, and names the hidden assumption the case exposed. A fracture cannot be recorded without changing the principle.
+Atlas then applies three kinds of pressure:
 
-The final artifact is not a verdict. It is the **stress trace**: the first claim, every pressure point, every revision, and the last principle shown together. Atlas makes reasoning inspectable as movement.
+1. a near, low-consequence lightbox;
+2. a distant, high-consequence financial transfer;
+3. an orthogonal switch-access case in which “outside tap” is not an available event.
 
-## Interaction grammar
+At each pressure, the visitor must say whether the principle held or fractured. A fracture cannot be recorded until the rule itself changes. Every version remains in the trace.
 
-**Claim → encounter distance → expose assumption → hold or fracture → revise → inspect lineage.**
+## Trial
 
-This grammar is intentionally unlike a quiz, a chatbot, or Design or Disaster’s jury. Atlas never supplies a critic’s judgment. Its authored contribution is the sequence of cases and the evidence each case makes newly relevant.
+The cases are ordered to expose increasingly hidden premises: reversibility, consequence, destination, input modality, and the bodily assumptions inside interface language.
 
-## Why the sequence matters
+Primary-source anchors from W3C and Microsoft support those variables. They do not provide the verdict. Atlas preserves the distinction between evidence that constrains a case and a contribution that organizes reasoning across cases.
 
-The cases are not examples of one pattern. They are instruments that isolate the variables hiding inside an overbroad rule: reversibility, cost of dismissal, destination, modality, and bodily access. The order moves from familiar to consequential to orthogonal. That progression prevents the exercise from becoming a generic pros-and-cons worksheet.
+## Result
 
-## Intellectual position
+The artifact produces no recommended principle. Its result is the distance between the first claim and the last:
 
-Design principles are often presented as stable sentences. Atlas treats them as provisional structures whose value is revealed by controlled transfer. A useful principle does not merely sound wise in its source context; it names the conditions under which its own conclusion changes.
+- where the claim held;
+- where it fractured;
+- what assumption was named;
+- how the wording moved;
+- which revision lineage now exists.
 
-The evidence corpus remains available as supporting scholarship. It establishes that the method was developed from checkable product cases. But the visitor’s own trace is the proof of transfer.
+The trace, not Atlas’s authority, is the output.
 
-## Emotional journey
+## Supporting corpus
 
-1. **Confidence:** write the rule that currently feels right.
-2. **Recognition:** watch it survive a nearby case.
-3. **Instability:** meet a case where the same wording becomes dangerous.
-4. **Expansion:** discover an assumption about bodies or input that the rule concealed.
-5. **Capability:** leave with a principle whose limits are visible because you revised it yourself.
+A wider single-authored corpus of interaction questions informed this instrument. Its four reasoning shapes remain an editorial lens, not a proven taxonomy. The stress trace is now the project’s center because it asks the reader to reason rather than only read completed reasoning.
 
-## What Atlas refuses
+## Limits
 
-No generated answer. No score. No expert reveal. No claim that one taxonomy exhausts interaction design. No identical case-study rhythm shared with the rest of the portfolio. The corpus supports the method; it does not substitute quantity for contribution.
+The pressure cases are authored and intentionally adversarial. The artifact has not been tested with learners, so it demonstrates a mechanism for practicing transfer without proving that transferable judgment occurred. Independent classification of the supporting corpus has not been conducted.
 
-## The image that should remain
+## Finding
 
-Five years later, Atlas should be remembered as the line that visibly cracked when a design principle met a distant case—and continued in the visitor’s revised words.
+Atlas contributes a compact interaction grammar for principle revision: **claim → pressure → hold or fracture → preserved lineage**.
+
+Its memorable image is a rule traveling across a trace and changing shape under pressure—not a library claiming to know the answer.

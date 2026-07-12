@@ -11,6 +11,7 @@ type PressureCase = {
   title: string
   situation: string
   evidence: string[]
+  sources: { label: string; href: string }[]
   pressure: string
 }
 
@@ -24,34 +25,37 @@ type TracePoint = {
 const pressureCases: PressureCase[] = [
   {
     id: 'lightbox',
-    distance: 'Near case · low consequence',
+    distance: 'Near case Â· low consequence',
     setting: 'Photo archive',
     title: 'A full-screen image viewer',
     situation: 'The underlying gallery remains intact. The viewer has no unfinished input and can be reopened without loss.',
     evidence: ['The action is reversible', 'The background is a meaningful destination', 'Dismissal discards no work'],
+    sources: [{ label: 'W3C APG · Modal dialog pattern', href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/' }],
     pressure: 'Does your rule hold when leaving is cheap and the destination is obvious?',
   },
   {
     id: 'transfer',
-    distance: 'Distant case · high consequence',
+    distance: 'Distant case Â· high consequence',
     setting: 'International transfer',
     title: 'A review dialog after twelve fields',
     situation: 'The person is checking account details before sending money. An accidental dismissal returns them to an expired session.',
     evidence: ['Dismissal may destroy work', 'The outside region is not a destination', 'Error cost is financial'],
+    sources: [{ label: 'Microsoft · Dialog controls and safe actions', href: 'https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/dialogs-and-flyouts/dialogs' }, { label: 'Microsoft · Confirmation design', href: 'https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-confirm' }],
     pressure: 'Does the same rule survive when dismissal is destructive?',
   },
   {
     id: 'switch',
-    distance: 'Orthogonal case · different body',
+    distance: 'Orthogonal case Â· different body',
     setting: 'Switch-access setup',
     title: 'A dialog navigated without a pointer',
-    situation: 'The person advances focus sequentially. “Outside” is a visual and pointer-based idea that their input method does not expose.',
+    situation: 'The person advances focus sequentially. â€œOutsideâ€ is a visual and pointer-based idea that their input method does not expose.',
     evidence: ['There may be no outside-tap event', 'Focus order is the operative geography', 'Escape must have an explicit equivalent'],
-    pressure: 'Is your principle about dismissal—or only about one body and one input device?',
+    sources: [{ label: 'W3C APG · Focus and keyboard interaction', href: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/' }],
+    pressure: 'Is your principle about dismissalâ€”or only about one body and one input device?',
   },
 ]
 
-const starter = 'Tapping outside a dialog should close it when…'
+const starter = 'Tapping outside a dialog should close it whenâ€¦'
 
 export function StressTrace() {
   const reduce = useReducedMotion() ?? false
@@ -172,6 +176,12 @@ export function StressTrace() {
                       <li key={item} className="border-t border-line pt-2 text-xs leading-relaxed text-ink-faint">{item}</li>
                     ))}
                   </ul>
+                  <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-ink-faint">Source anchors · variables, not verdicts</span>
+                    {activeCase.sources.map((source) => (
+                      <a key={source.href} href={source.href} target="_blank" rel="noreferrer" className="text-xs text-ink-soft underline decoration-line underline-offset-4 hover:text-ink">{source.label}</a>
+                    ))}
+                  </div>
                   <p className="mt-7 border-l-2 border-accent pl-4 font-serif text-xl leading-snug text-ink">{activeCase.pressure}</p>
                 </div>
 
@@ -218,6 +228,9 @@ export function StressTrace() {
                       <span className="text-sm font-medium text-ink">It fractured</span>
                     </button>
                   </div>
+                  {!fractureHasRevision && (
+                    <p className="mt-3 text-xs leading-relaxed text-ink-faint">To record a fracture, revise the principle itself. A changed label without a changed rule leaves no trace.</p>
+                  )}
                 </div>
               </motion.section>
             ) : (
@@ -229,7 +242,7 @@ export function StressTrace() {
               >
                 <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-start">
                   <div className="max-w-2xl">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Your trace, not Atlas’s verdict</p>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-accent">Your trace, not Atlasâ€™s verdict</p>
                     <h2 className="mt-3 font-serif text-4xl leading-tight text-ink">The answer is the distance your principle travelled.</h2>
                     <p className="mt-5 text-[15px] leading-relaxed text-ink-soft">
                       Atlas has not selected a correct rule. It has made the lineage of your reasoning inspectable: where it held, where it fractured, and what each case forced you to notice.

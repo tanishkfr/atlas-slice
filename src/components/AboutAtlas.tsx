@@ -1,126 +1,43 @@
 import { ArrowLeft } from '@phosphor-icons/react'
 import { allEntries } from '../content/entry'
 
-type AboutAtlasProps = {
-  onBack: () => void
-}
+type AboutAtlasProps = { onBack: () => void }
 
-/**
- * The thesis, stated plainly, plus a genuinely honest account of where
- * this broke during the making of it. Both were previously true only in
- * RESEARCH.md/TODO.md — real, but invisible to anyone who hadn't gone
- * looking. This surfaces them in the one place a visitor actually is.
- */
 export function AboutAtlas({ onBack }: AboutAtlasProps) {
   return (
     <div className="w-full max-w-2xl">
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-1.5 rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-      >
-        <ArrowLeft size={13} weight="bold" />
-        Back
+      <button type="button" onClick={onBack} className="inline-flex items-center gap-1.5 rounded-sm text-sm text-ink-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+        <ArrowLeft size={13} weight="bold" /> Back
       </button>
 
-      <p className="mt-10 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-        Why this exists
+      <p className="mt-10 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">The proposition</p>
+      <p className="mt-6 text-pretty font-serif text-xl leading-relaxed text-ink sm:text-2xl">
+        Interaction principles become useful when their assumptions are exposed by cases that do not resemble the one that produced them.
       </p>
-      <div className="mt-6 space-y-4">
-        <p className="text-pretty font-serif text-xl leading-relaxed text-ink sm:text-2xl">
-          Design systems have colors, type scales, spacing tokens: a documented visual language. Interaction design has never had the equivalent. A body of reasoning about why an interaction behaves the way it does, tested the way law and business schools test reasoning, through real cases argued from evidence, not asserted from authority.
-        </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          Atlas is an attempt at that, but the corpus is not the point. Every entry is a worked case: diagnose the shape of the question, argue from checkable examples, and land a principle that can travel to a new case. The test is not whether Atlas has an answer in the archive. The test is whether you can reason the next question without one.
-        </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          None of this is unprecedented by itself. Design-rationale frameworks like IBIS and QOC have modeled reasoning as questions and arguments since the 1970s. What they never did was ground that reasoning in evidence gathered across an entire industry's shipped products, instead of one team's internal notes. That's the actual bet here.
-        </p>
+      <p className="mt-4 text-[15px] leading-relaxed text-ink-soft">
+        Atlas is a research-through-design instrument for making that movement inspectable. You begin with a rule, carry it through three deliberately distant pressure cases, and preserve every revision. Atlas does not generate a better answer. Its output is the lineage of your own reasoning.
+      </p>
+
+      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">The instrument</p>
+      <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
+        <p>The near case asks whether the rule survives when dismissal is cheap. The high-consequence case reverses the cost of leaving. The switch-access case removes the pointer geography hidden inside the phrase “tap outside.” A fracture can only be recorded after the principle changes, so revision becomes visible rather than rhetorical.</p>
+        <p>Source anchors point to W3C and Microsoft guidance that supports the variables in each authored scenario—focus containment, explicit dismissal, safe actions, reversibility, and destructive consequence. Those sources do not settle the principle. The visitor must decide what follows from them.</p>
       </div>
 
-      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-        On the four shapes
-      </p>
-      <div className="mt-6 space-y-4">
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          The four shapes are a proposed lens, not a proven partition. They
-          weren't derived from a dataset; they emerged from writing the entries
-          and noticing the reasoning kept falling into the same handful of moves.
-          That's an honest origin and also a real limit: the recurrence the
-          Survey shows is partly a finding and partly a consequence of having
-          authored each question into a shape in the first place.
-        </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          What would make it more than a lens is the thing it doesn't have yet —
-          a second reader classifying the same questions blind, to test whether
-          the shapes live in the reasoning or only in how one person chose to
-          tell it. Until then, treat the four as a useful way to read interaction
-          arguments, not a claim that there are exactly four.
-        </p>
+      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">Supporting corpus</p>
+      <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
+        <p>The wider Atlas corpus contains {allEntries.length} single-authored entries argued from shipped examples. Its four shapes are an editorial lens, not a proven taxonomy: they emerged through writing and have not been independently classified.</p>
+        <p>The corpus supports the project, but it is no longer the organizing interaction. The stress trace is the contribution because it asks a reader to produce and revise a claim instead of only consuming one.</p>
       </div>
 
-      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-        How this was actually built
-      </p>
-
-      <div className="mt-8 space-y-10">
-        <div>
-          <p className="font-serif text-lg font-medium text-ink">
-            Evidence, wrong in both directions
-          </p>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
-            An early entry cited Stripe as evidence for keeping a payment button enabled and validating on submit. It was backwards: Stripe's own guidance recommends disabling until the form is valid. The citation read correctly on the page and was wrong in exactly the direction that happened to support the point being argued, which is the specific way a bad citation is hardest to catch from the inside. It shipped once before anyone checked it against a real source. It happened again, in a different entry, months later, before a live verification pass caught it a second time.
-          </p>
-        </div>
-
-        <div>
-          <p className="font-serif text-lg font-medium text-ink">
-            One sentence shape, written five times by accident
-          </p>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
-            Five separate principles, written across five different working sessions, independently reached for the exact same construction: state a claim, negate it in one breath, follow with what it actually is instead. Nobody noticed while writing any single one. The pattern only became visible once every shipped principle was read side by side, which is also what it took to notice the editorial rule meant to catch this, checking only the last three shipped principles, wasn't wide enough to catch a habit that resurfaces every three or four entries.
-          </p>
-        </div>
-
-        <div>
-          <p className="font-serif text-lg font-medium text-ink">
-            Three attempts at one small idea
-          </p>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
-            A small margin note that echoed what you'd already scrolled past existed for a while, got reworked once for being too quiet to register as intentional, reworked again for looking overdone once it was more visible, and was eventually removed outright. Three attempts at the same small idea before concluding it was never earning the complexity it cost.
-          </p>
-        </div>
+      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">Limits</p>
+      <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
+        <p>The three pressure cases are authored, not sampled, and their sequence is intentionally adversarial. Atlas has not yet been tested with learners, so it demonstrates a transferable reasoning interaction without proving transfer.</p>
+        <p>That restraint matters. When Atlas lacks evidence, it should expose the gap rather than manufacture a plausible answer. The artifact argues for inspectable revision, not automated authority.</p>
       </div>
 
-      <p className="mt-16 border-b border-line pb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-        Where it stands
-      </p>
-      <div className="mt-6 space-y-4">
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          Atlas is single-authored: {allEntries.length} entries, each argued from
-          at least two real cases and run through a fixed set of editorial gates
-          before shipping. One decision shaped the rest of it — when a question
-          has no entry, Atlas says so, rather than generating a plausible-sounding
-          answer. Wiring in a model that could fabricate an argument would have
-          made it feel more complete and meant less: the whole premise is evidence
-          you can check, and a generated answer is exactly the thing you can't.
-        </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
-          What it hasn't done yet is meet a learner. The claim that this teaches
-          transferable judgment is, so far, argued rather than tested. The
-          Reason-it exercise — where you diagnose a question the corpus never
-          covers and work it out with the shape's method, rather than only watch
-          Atlas do it — is the attempt to close that gap. Whether it actually
-          transfers is a question only real readers can answer.
-        </p>
-        {/*
-          TODO — author's voice. Replace or follow this with one honest,
-          first-person paragraph: why *you* started this, and the one thing
-          making it changed your mind about. That personal note is the single
-          thing this section can't be written for you — it has to be yours, so
-          it's deliberately left blank rather than filled with a plausible
-          stand-in. Delete this comment once you've written it.
-        */}
+      <div className="mt-16 border-t border-line pt-6 text-sm text-ink-faint">
+        <a href="https://github.com/tanishkfr/atlas-slice" className="underline decoration-line underline-offset-4 hover:text-ink">Source on GitHub</a>
       </div>
     </div>
   )
