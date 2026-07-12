@@ -12,14 +12,20 @@ import { RuleInversionAnswer } from './components/RuleInversionAnswer'
 import { MultiVariableAnswer } from './components/MultiVariableAnswer'
 import { AtlasMark } from './components/AtlasMark'
 import { ExampleLink } from './components/ExampleLink'
+import { ReasoningTrace } from './components/ReasoningTrace'
 import {
-  allEntries,
   deleteConfirmationEntry,
   darkModeEntry,
   clickCountEntry,
   adaptiveUiEntry,
   type Entry,
 } from './content/entry'
+
+// The same four kinds the corpus and the Survey use, drawn small and
+// unlabeled beneath the hero — a two-second visual proof of the headline's
+// claim, before anything is explained. Left unnamed on purpose: naming the
+// shapes only happens once, inside Reason-it, where naming them is the point.
+const heroShapes: Entry['kind'][] = ['branch', 'misconception', 'rule-inversion', 'multi-variable']
 
 function renderAnswer(entry: Entry, askedQuery: string) {
   switch (entry.kind) {
@@ -57,6 +63,7 @@ function App() {
   const [asked, setAsked] = useState<{ query: string; entry: Entry } | null>(null)
   const [showIndex, setShowIndex] = useState(false)
   const [showAbout, setShowAbout] = useState(false)
+  const [showFigure, setShowFigure] = useState(false)
   const [showReason, setShowReason] = useState(false)
   const reduceMotion = useReducedMotion()
 
@@ -64,6 +71,7 @@ function App() {
     setAsked(null)
     setShowIndex(false)
     setShowAbout(false)
+    setShowFigure(false)
     setShowReason(false)
   }
 
@@ -107,6 +115,20 @@ function App() {
             className="group relative rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
           >
             Reason it
+            <span
+              aria-hidden
+              className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent/70 transition-transform duration-200 ease-out group-hover:scale-x-100"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              closeAll()
+              setShowFigure(true)
+            }}
+            className="group relative rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+          >
+            Survey
             <span
               aria-hidden
               className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent/70 transition-transform duration-200 ease-out group-hover:scale-x-100"
@@ -182,6 +204,17 @@ function App() {
             >
               <AboutAtlas onBack={() => setShowAbout(false)} />
             </motion.div>
+          ) : showFigure ? (
+            <motion.div
+              key="figure"
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex w-full flex-col items-center pb-32 pt-16 sm:pt-24"
+            >
+              <Figure onBack={() => setShowFigure(false)} onAsk={handleAsk} />
+            </motion.div>
           ) : showReason ? (
             <motion.div
               key="reason"
@@ -200,13 +233,13 @@ function App() {
               animate={{ opacity: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
               transition={{ duration: 0.3 }}
-              className="flex w-full flex-col items-center pb-32 pt-16 sm:pt-20"
+              className="flex w-full flex-col items-center pb-24 pt-[9vh] sm:pt-[11vh]"
             >
               <motion.h1
                 initial={reduceMotion ? false : { opacity: 0, y: 12, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="max-w-2xl text-balance text-center font-serif text-3xl leading-[1.1] text-ink sm:text-4xl"
+                className="max-w-2xl text-balance text-center font-serif text-4xl leading-[1.08] text-ink sm:text-5xl"
               >
                 Every interaction question has a shape.
               </motion.h1>
@@ -214,39 +247,38 @@ function App() {
                 initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-4 max-w-md text-balance text-center text-[15px] leading-relaxed text-ink-soft"
+                className="mt-5 max-w-md text-balance text-center text-[15px] leading-relaxed text-ink-soft"
               >
-                Below is the map — {allEntries.length} real questions, drawn only by
-                how their reasoning moves, not what they’re about.
+                A field guide to interaction judgment, built to teach you to
+                reason the questions it doesn’t have.
               </motion.p>
-              <motion.button
-                type="button"
-                onClick={openReason}
+
+              {/* The claim, made visible before it's explained: four small,
+                  unlabeled traces — the same silhouettes the Survey and
+                  Reason-it use — so "shape" stops being a metaphor in the
+                  first five seconds on the page. */}
+              <motion.div
                 initial={reduceMotion ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-4 rounded-sm text-xs text-ink-faint underline decoration-line underline-offset-4 transition-colors duration-150 hover:text-accent cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                transition={{ duration: 0.6, delay: 0.24 }}
+                className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 sm:gap-x-9"
+                aria-hidden
               >
-                Prefer to skip ahead? Reason a question yourself.
-              </motion.button>
-
-              {/* The map — the thesis, demonstrated, not asserted. Every entry
-                  in the corpus, grouped only by the shape its own reasoning
-                  falls into. This is the front door; everything else is
-                  downstream of it. */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-14 w-full"
-              >
-                <Figure onAsk={handleAsk} />
+                {heroShapes.map((kind, i) => (
+                  <div key={kind} className="w-[92px] sm:w-[104px]">
+                    <ReasoningTrace ghostKind={kind} delay={0.4 + i * 0.1} />
+                  </div>
+                ))}
               </motion.div>
 
-              {/* Secondary paths, reached after exploring the map, not before
-                  it — a reader who wants to try the method themselves, and a
-                  quiet fallback for anyone with a specific question in mind. */}
-              <div className="mt-16 flex w-full flex-col items-center border-t border-line pt-12">
+              {/* One unambiguous action — everything else on this page exists
+                  to earn this button, not to compete with it. */}
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-10 flex flex-col items-center"
+              >
                 <button
                   type="button"
                   onClick={openReason}
@@ -262,14 +294,21 @@ function App() {
                 <p className="mt-3 max-w-xs text-balance text-center text-xs leading-relaxed text-ink-faint">
                   Bring a question — even one Atlas has never covered.
                 </p>
+              </motion.div>
 
-                <div className="mt-14 flex w-full flex-col items-center border-t border-line pt-10">
-                  <p className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-                    Or ask about one Atlas already covers
-                  </p>
-                  <QueryInput onAsk={handleAsk} onShowIndex={() => setShowIndex(true)} />
-                </div>
-              </div>
+              {/* A quiet, low-weight fallback — present, but never competing
+                  with the button above for attention. */}
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.44 }}
+                className="mt-16 flex w-full flex-col items-center border-t border-line pt-10"
+              >
+                <p className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
+                  Or ask about one Atlas already covers
+                </p>
+                <QueryInput onAsk={handleAsk} onShowIndex={() => setShowIndex(true)} />
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
