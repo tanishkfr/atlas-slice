@@ -1,80 +1,51 @@
-# Atlas - Case Study
+# Atlas — Case Study
 
-**A case method for interaction design reasoning.**
+## A map of how a principle changes under pressure
 
-Atlas is not a pattern library, critique tool, chatbot, or inspiration archive. It is a working argument that interaction design can be taught through reusable reasoning shapes: the structure of the question matters more than the answer to one example.
+Atlas investigates whether interaction-design knowledge can travel beyond the case that produced it. Its central question is: **can a designer learn a reusable way to reason, rather than another answer to remember?**
 
-## Research Question
+The project’s evidence corpus still matters, but it is no longer the main experience. The project now begins with an unfinished principle and ends with a visible lineage of reasoning.
 
-Can interaction design knowledge be taught as a transferable case method, grounded in evidence from shipped products rather than asserted as generic rules?
+## The contribution: the stress trace
 
-## Core Thesis
+A visitor writes a provisional rule for one open interaction question: *Should tapping outside a dialog close it?* Atlas does not grade or complete the rule. Instead, it carries the claim through three authored cases selected for intellectual distance:
 
-Designers do not need another list of patterns. They need a way to recognize what kind of interaction question they are facing, reason through the tradeoffs, and transfer the method to a new case.
+- a reversible photo lightbox;
+- a destructive international-transfer review;
+- a dialog navigated without a pointer.
 
-## Contribution
+Each case changes what counts as relevant evidence. The visitor decides whether the principle held or fractured, revises it when necessary, and names the hidden assumption the case exposed. A fracture cannot be recorded without changing the principle.
 
-Atlas contributes a pedagogical structure for interaction design:
+The final artifact is not a verdict. It is the **stress trace**: the first claim, every pressure point, every revision, and the last principle shown together. Atlas makes reasoning inspectable as movement.
 
-- questions are diagnosed into reasoning shapes
-- answers are argued from checkable product evidence
-- the final principle is portable, not merely descriptive
-- the reader can bring an unanswered question and work it without the system generating an answer
+## Interaction grammar
 
-The important artifact is not the corpus. The corpus proves the method. The contribution is transfer.
+**Claim → encounter distance → expose assumption → hold or fracture → revise → inspect lineage.**
 
-## Interaction Grammar
+This grammar is intentionally unlike a quiz, a chatbot, or Design or Disaster’s jury. Atlas never supplies a critic’s judgment. Its authored contribution is the sequence of cases and the evidence each case makes newly relevant.
 
-**Ask -> diagnose shape -> work evidence -> transfer principle**
+## Why the sequence matters
 
-The shipped experience has two doors:
+The cases are not examples of one pattern. They are instruments that isolate the variables hiding inside an overbroad rule: reversibility, cost of dismissal, destination, modality, and bodily access. The order moves from familiar to consequential to orthogonal. That progression prevents the exercise from becoming a generic pros-and-cons worksheet.
 
-- a lookup path for existing evidence-backed entries
-- a "Reason it yourself" path where the reader brings a question Atlas has never answered and uses the method
+## Intellectual position
 
-The second path is the project. The first path earns trust.
+Design principles are often presented as stable sentences. Atlas treats them as provisional structures whose value is revealed by controlled transfer. A useful principle does not merely sound wise in its source context; it names the conditions under which its own conclusion changes.
 
-## Cognitive Verb
+The evidence corpus remains available as supporting scholarship. It establishes that the method was developed from checkable product cases. But the visitor’s own trace is the proof of transfer.
 
-**Reason**
+## Emotional journey
 
-Atlas should make the reviewer feel that they have acquired a reusable way to think.
+1. **Confidence:** write the rule that currently feels right.
+2. **Recognition:** watch it survive a nearby case.
+3. **Instability:** meet a case where the same wording becomes dangerous.
+4. **Expansion:** discover an assumption about bodies or input that the rule concealed.
+5. **Capability:** leave with a principle whose limits are visible because you revised it yourself.
 
-## Emotional Arc
+## What Atlas refuses
 
-Curiosity: "I have an interaction question."  
-Orientation: "This question has a shape."  
-Discipline: "The shape changes what evidence matters."  
-Capability: "I can reason the next question myself."
+No generated answer. No score. No expert reveal. No claim that one taxonomy exhausts interaction design. No identical case-study rhythm shared with the rest of the portfolio. The corpus supports the method; it does not substitute quantity for contribution.
 
-## Reviewer Takeaway
+## The image that should remain
 
-Atlas is the project that proves Tanishk can invent an intellectual framework, not just a polished interaction.
-
-Two weeks later, the reviewer should remember:
-
-> Atlas treated interaction questions like cases: diagnose the shape, argue from evidence, leave with a method that travels.
-
-## What Only This Project Teaches
-
-Atlas is the only project in the portfolio that teaches transferable interaction reasoning as its primary outcome.
-
-Design or Disaster trains a critic's eye. Atlas teaches the structure beneath a decision. That distinction must remain obvious.
-
-## Closest Portfolio Neighbor
-
-**Design or Disaster**
-
-The overlap is real: both concern design judgment and both use evidence. The difference is the user's role.
-
-- In Design or Disaster, the user rules on an external artifact before experts disagree.
-- In Atlas, the user learns how to reason an interaction question they have not seen before.
-
-If Atlas is described as "training design judgment," it becomes weaker. If it is described as "a transferable case method for interaction questions," it becomes singular.
-
-## 30-Second Reviewer Framing
-
-Atlas should introduce itself with this claim:
-
-> Interaction design has patterns, guidelines, and screenshots. Atlas asks what kind of question you are facing, then teaches the reasoning shape that lets you answer the next one yourself.
-
+Five years later, Atlas should be remembered as the line that visibly cracked when a design principle met a distant case—and continued in the visitor’s revised words.
