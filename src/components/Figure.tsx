@@ -1,9 +1,7 @@
-import { ArrowLeft } from '@phosphor-icons/react'
 import { allEntries, type Entry } from '../content/entry'
 import { ReasoningTrace } from './ReasoningTrace'
 
 type FigureProps = {
-  onBack: () => void
   onAsk: (query: string, entry: Entry) => void
 }
 
@@ -14,7 +12,7 @@ type FigureProps = {
 const order: Entry['kind'][] = ['branch', 'misconception', 'rule-inversion', 'multi-variable']
 
 /**
- * Atlas's Figure 1.
+ * Atlas's Figure 1 — the map itself.
  *
  * Not documentation of the four shapes and not a diagram of the framework — a
  * survey. Every one of the questions is drawn as the path its reasoning takes,
@@ -23,38 +21,19 @@ const order: Entry['kind'][] = ['branch', 'misconception', 'rule-inversion', 'mu
  * line; that recurrence is the contribution, so it's left for the eye to find
  * rather than asserted in a legend. Each row is live: it opens the full
  * reasoning it was traced from.
+ *
+ * Embedded directly on the homepage, not behind a nav click — the map is the
+ * front door, not a reward for exploring. The surrounding thesis statement
+ * and framing copy live in App.tsx; this component is just the plate itself.
  */
-export function Figure({ onBack, onAsk }: FigureProps) {
+export function Figure({ onAsk }: FigureProps) {
   const groups = order.map((kind) => allEntries.filter((e) => e.kind === kind))
   let row = 0
 
   return (
     <div className="w-full max-w-3xl">
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-1.5 rounded-sm text-sm text-ink-faint transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-      >
-        <ArrowLeft size={13} weight="bold" />
-        Back
-      </button>
-
-      <p className="mt-8 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-faint">
-        The survey
-      </p>
-      <h1 className="mt-2 max-w-xl text-balance font-serif text-2xl leading-snug text-ink sm:text-3xl">
-        Every answer, drawn by how its reasoning moves.
-      </h1>
-      <p className="mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-ink-soft">
-        Each line is one question, riding a single axis — from where it was asked,
-        on the left, to the principle it lands on. A mark crosses the line wherever
-        the reasoning rests on a real, checkable source. Nothing is labelled by type.
-        The groupings are only what the shapes themselves fall into once every
-        question is drawn the same way.
-      </p>
-
       {/* Axis annotation, once — like the head of a real plate. */}
-      <div className="mt-12 hidden items-center gap-3 border-b border-line pb-2 sm:flex">
+      <div className="hidden items-center gap-3 border-b border-line pb-2 sm:flex">
         <span className="min-w-0 flex-1" />
         <span
           aria-hidden
