@@ -31,7 +31,7 @@ export function AboutAtlas({ onBack }: AboutAtlasProps) {
           Design systems have colors, type scales, spacing tokens: a documented visual language. Interaction design has never had the equivalent. A body of reasoning about why an interaction behaves the way it does, tested the way law and business schools test reasoning, through real cases argued from evidence, not asserted from authority.
         </p>
         <p className="text-[15px] leading-relaxed text-ink-soft">
-          Atlas is an attempt at that. Every entry here is diagnosed into one of four shapes: a real fork between two defensible strategies, a common belief that's simply false, a rule that's directionally right but missing a variable, or a question that never collapses into one rule at all. Each is argued with at least two real, checkable examples, and run through a set of editorial gates before it ships.
+          Atlas is an attempt at that, but the corpus is not the point. Every entry is a worked case: diagnose the shape of the question, argue from checkable examples, and land a principle that can travel to a new case. The test is not whether Atlas has an answer in the archive. The test is whether you can reason the next question without one.
         </p>
         <p className="text-[15px] leading-relaxed text-ink-soft">
           None of this is unprecedented by itself. Design-rationale frameworks like IBIS and QOC have modeled reasoning as questions and arguments since the 1970s. What they never did was ground that reasoning in evidence gathered across an entire industry's shipped products, instead of one team's internal notes. That's the actual bet here.

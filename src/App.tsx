@@ -249,8 +249,7 @@ function App() {
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-5 max-w-md text-balance text-center text-[15px] leading-relaxed text-ink-soft"
               >
-                A field guide to interaction judgment, built to teach you to
-                reason the questions it doesn’t have.
+                A case method for interaction design: diagnose the shape, argue from evidence, and leave with a way to reason the next question yourself.
               </motion.p>
 
               {/* The claim, made visible before it's explained: four small,
@@ -325,7 +324,7 @@ function App() {
                     />
                   </button>
                   <p className="mt-3 max-w-[260px] text-balance text-center text-xs leading-relaxed text-ink-faint">
-                    You work it out — Atlas gives you the method, not the answer.
+                    You work it out: Atlas gives you the method, not the answer.
                   </p>
                 </div>
 
@@ -335,8 +334,7 @@ function App() {
 
                 <div className="mt-8 flex w-full flex-col items-center">
                   <p className="max-w-[280px] text-balance text-center text-xs leading-relaxed text-ink-faint">
-                    Get an existing, evidence-backed answer instantly, for a
-                    question Atlas already covers.
+                    Open a worked case from the corpus, then use its reasoning shape somewhere else.
                   </p>
                   <div className="mt-5 w-full">
                     <QueryInput onAsk={handleAsk} onShowIndex={() => setShowIndex(true)} />

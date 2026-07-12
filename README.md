@@ -2,11 +2,7 @@
 
 **A map of how to think, not what to know.**
 
-Atlas is a research-driven design tool investigating whether interaction
-behavior can be documented, analyzed, and taught with the same rigor as
-visual design systems. Ask an interaction design question — "Should I
-confirm before deleting a file?", "Is dark mode more accessible?" — and get
-a reasoned answer grounded in real, checkable evidence, not a generic rule.
+Atlas is a research-driven case method for interaction design. It investigates whether designers can learn the shape of an interaction question, reason through evidence, and transfer that method to a question the corpus has never answered. The point is not lookup. The point is portable reasoning.
 
 Every entry in the corpus is diagnosed into one of four reasoning shapes: a
 genuine fork between two defensible strategies, a common belief that's
