@@ -35,7 +35,7 @@ export function SettleBeat({ askedQuery, matchedQuery }: SettleBeatProps) {
           transition={{ duration: 0.2, delay: 0.1 }}
           className="mt-3 text-sm text-ink-faint"
         >
-          Answered as: <span className="text-ink-soft">{matchedQuery}</span>. Atlas&apos;s closest documented case for that question.
+          Closest match: <span className="text-ink-soft">{matchedQuery}</span>. This is the closest saved example.
         </motion.p>
       )}
     </>

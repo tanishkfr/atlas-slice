@@ -45,8 +45,8 @@ export function TransferExercise({ entry }: TransferExerciseProps) {
         Now you
       </p>
       <p className="mt-3 text-pretty font-serif text-xl leading-relaxed text-ink sm:text-2xl">
-        Here's a case Atlas has never answered. Read it, then answer the same
-        three questions for it — your own call, not the one above.
+        Here is a new example. Answer the same three questions for it in your
+        own way.
       </p>
 
       {/* The case, held apart as its own quiet object. */}
@@ -112,10 +112,8 @@ export function TransferExercise({ entry }: TransferExerciseProps) {
                 ))}
               </ul>
               <p className="mt-5 text-[15px] leading-relaxed text-ink-soft">
-                Nobody at Atlas answered this one for you. You worked it out with
-                the same three questions from the case above, just aimed at a new
-                situation — which is the actual point of a map like this one: it
-                travels to cases the corpus never covers.
+                Atlas did not answer this one for you. You used the same three
+                questions to work through a new situation.
               </p>
             </div>
           </RevealSection>

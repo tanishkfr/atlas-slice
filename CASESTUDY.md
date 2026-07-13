@@ -1,9 +1,9 @@
-# Atlas — Stress Trace 01
+# Atlas — Rule Test 01
 
 > **Context:** Self-directed research-through-design
 > **Year:** 2026
 > **Role:** Independent designer, researcher, editor, and engineer
-> **Status:** Working research instrument with a supporting single-authored corpus
+> **Status:** Working rule-testing activity with 33 supporting design examples
 > **Tools:** React, TypeScript, Vite, Framer Motion, Tailwind CSS
 > **AI disclosure:** AI-assisted ideation, critique, source discovery, and code iteration. Final concept selection, scenario design, design decisions, editing, and authorship are by Tanishk Salagame.
 > **Live:** https://atlas-slice.vercel.app/
@@ -11,7 +11,7 @@
 
 ## Proposition
 
-**An interaction principle is only as useful as the distant cases it survives.**
+**A design rule becomes useful when it still works in very different situations.**
 
 Atlas asks whether design reasoning can be made inspectable without turning judgment into an answer generator.
 
@@ -19,21 +19,21 @@ Atlas asks whether design reasoning can be made inspectable without turning judg
 
 Atlas began as a library of completed answers to interaction-design questions. The writing was useful, but the visitor remained a reader of finished reasoning.
 
-The project was reorganized around a participatory instrument: state a rule, expose it to pressure, revise it when necessary, and preserve the full lineage. The corpus now supports that interaction instead of acting as the project’s center.
+The project was reorganized around an interactive rule test: write a rule, try it in different situations, change it when needed, and keep the full history. The 33 design examples now support that activity instead of acting as the project’s center.
 
-## Instrument
+## Rule test
 
-The visitor writes a principle for one question: when should tapping outside a dialog close it?
+The visitor writes a rule for one question: when should tapping outside a dialog close it? A restart rotates to a different sentence starter while keeping the same question and its three matching examples.
 
-Atlas then applies three authored pressures:
+Atlas then shows three examples:
 
-1. a near, low-consequence lightbox;
-2. a distant, high-consequence financial transfer;
-3. an orthogonal switch-access case in which “outside tap” is not an available event.
+1. a similar, low-risk lightbox;
+2. a different, high-risk financial transfer;
+3. an accessibility example in which “outside tap” is not an available event.
 
-At each pressure, the visitor records whether the principle held, was refined, or fractured. A hold preserves the wording. A refinement or fracture requires a visible revision. Every version remains available in the completed trace.
+For each example, the visitor chooses whether the rule still works, needs a change, or breaks. Keeping the rule preserves its wording. Changing or breaking it requires a visible rewrite. Every version remains available in the final result.
 
-Progress persists in the browser, and the completed trace can be copied or downloaded. The artifact’s output is durable enough to inspect after the interaction ends.
+Progress stays in the browser, and the completed result can be copied or downloaded. Text areas grow with the answer but cannot be manually resized.
 
 ## Interaction language
 
@@ -47,16 +47,16 @@ The signature interaction is the revision lineage:
 
 Motion is reserved for movement in the reasoning: a case entering, a branch changing, or a trace drawing into view. Previously read content no longer blurs or recedes.
 
-## Supporting corpus
+## The 33 design examples
 
-The wider corpus contains 33 single-authored interaction-design arguments. Four recurring reasoning patterns organize it:
+Atlas still includes all 33 single-authored interaction-design questions and answers. Four simple answer styles organize them:
 
-1. conditional branch;
-2. misconception reversal;
-3. rule inversion;
-4. variable map.
+1. Two paths;
+2. Common belief, corrected;
+3. Same rule, opposite answers;
+4. Things to weigh.
 
-These patterns are an editorial lens, not a validated taxonomy. The interface labels them directly and explains that repeated silhouettes communicate classification rather than independent measurement.
+These groups make the examples easier to browse. They are not a validated system, and the interface says so directly.
 
 ## Evidence boundary
 

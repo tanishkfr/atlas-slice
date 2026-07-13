@@ -94,14 +94,14 @@ function App() {
           >
             <AtlasMark />
             <span className="font-serif text-base tracking-wide text-ink-soft transition-colors group-hover:text-ink">
-              Atlas <span className="hidden text-ink-faint lg:inline">· principles under pressure</span>
+              Atlas <span className="hidden text-ink-faint lg:inline">· test a design rule</span>
             </span>
           </button>
           <nav className="flex items-center gap-0.5 text-sm sm:gap-3" aria-label="Atlas sections">
             <NavButton active={route.view === 'stress'} onClick={() => navigate('stress')}>
-              <span className="sm:hidden">Trace</span><span className="hidden sm:inline">Stress trace</span>
+              <span className="sm:hidden">Test</span><span className="hidden sm:inline">Test a rule</span>
             </NavButton>
-            <NavButton active={route.view === 'corpus'} onClick={() => navigate('corpus')}>Corpus</NavButton>
+            <NavButton active={route.view === 'corpus'} onClick={() => navigate('corpus')}>33 examples</NavButton>
             <NavButton active={route.view === 'about'} onClick={() => navigate('about')}>About</NavButton>
           </nav>
         </div>
@@ -113,16 +113,16 @@ function App() {
             <div className="flex w-full flex-col items-center pb-28">
               <div className="mb-9 w-full max-w-2xl">
                 <button type="button" onClick={() => navigate('corpus')} className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
-                  <ArrowLeft size={14} weight="bold" /> Back to corpus
+                  <ArrowLeft size={14} weight="bold" /> Back to all examples
                 </button>
               </div>
               {renderAnswer(route.entry)}
               <button type="button" onClick={() => navigate('corpus')} className="mt-14 inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint underline decoration-line underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
-                <ArrowLeft size={14} weight="bold" /> Return to the corpus
+                <ArrowLeft size={14} weight="bold" /> See all 33 examples
               </button>
             </div>
           ) : route.view === 'stress' ? (
-            <StressTrace />
+            <StressTrace onBrowseExamples={() => navigate('corpus')} />
           ) : route.view === 'corpus' ? (
             <div className="flex w-full flex-col items-center pb-28">
               <Figure onBack={() => navigate('stress')} onAsk={(_query, entry) => navigate('corpus', entry)} />

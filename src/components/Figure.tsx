@@ -14,23 +14,23 @@ const groups: {
 }[] = [
   {
     kind: 'branch',
-    title: 'Conditional branch',
-    description: 'Two legitimate conditions stay live before converging on a weighted principle.',
+    title: 'Two paths',
+    description: 'Two valid situations lead to different answers, then one useful rule.',
   },
   {
     kind: 'misconception',
-    title: 'Misconception reversal',
-    description: 'A plausible first belief crosses the axis, then settles into a correction.',
+    title: 'Common belief, corrected',
+    description: 'A reasonable first guess turns out to be wrong, and the answer explains why.',
   },
   {
     kind: 'rule-inversion',
-    title: 'Rule inversion',
-    description: 'One rule produces opposite verdicts in two cases, forcing a sharper question.',
+    title: 'Same rule, opposite answers',
+    description: 'The same rule gives opposite answers in two examples, so the question needs to be more specific.',
   },
   {
     kind: 'multi-variable',
-    title: 'Variable map',
-    description: 'Several variables accumulate without collapsing into a single directive.',
+    title: 'Things to weigh',
+    description: 'Several factors matter, so there is no useful one-line answer.',
   },
 ]
 
@@ -43,20 +43,20 @@ export function Figure({ onBack, onAsk }: FigureProps) {
         className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <ArrowLeft size={14} weight="bold" />
-        Back to trace
+        Back to rule test
       </button>
 
       <p className="mt-8 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent">
-        Supporting corpus · {allEntries.length} questions
+        All design examples · {allEntries.length} total
       </p>
       <h1 className="mt-2 max-w-2xl text-balance font-serif text-3xl leading-snug text-ink sm:text-4xl">
-        Four authored patterns for reading how design reasoning moves.
+        Browse all 33 design questions and answers.
       </h1>
       <p className="mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-ink-soft">
-        This is an editorial lens, not a validated taxonomy. Each question is assigned to one of four recurring reasoning structures. Open any row to inspect the argument behind its shape.
+        The questions are grouped by four common ways an answer can unfold. These groups are a writing aid, not a proven system. Open any question to read the full answer.
       </p>
 
-      <nav className="mt-8 flex flex-wrap gap-2" aria-label="Corpus reasoning patterns">
+      <nav className="mt-8 flex flex-wrap gap-2" aria-label="Example groups">
         {groups.map((group) => (
           <button
             type="button"
@@ -72,8 +72,8 @@ export function Figure({ onBack, onAsk }: FigureProps) {
       <div className="mt-12 hidden items-center gap-3 border-b border-line pb-2 sm:flex" aria-hidden>
         <span className="min-w-0 flex-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">Question</span>
         <span className="flex w-[240px] items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
-          <span>Asked</span>
-          <span>Principle</span>
+          <span>Question</span>
+          <span>Answer</span>
         </span>
       </div>
 
@@ -86,7 +86,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h2 className="font-serif text-2xl text-ink">{group.title}</h2>
                   <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
-                    {entries.length} {entries.length === 1 ? 'question' : 'questions'}
+                    {entries.length} {entries.length === 1 ? 'example' : 'examples'}
                   </p>
                 </div>
                 <p className="mt-1 max-w-2xl text-sm leading-relaxed text-ink-faint">{group.description}</p>
@@ -112,7 +112,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
                       <span aria-hidden className="hidden h-0 min-w-4 flex-1 self-center border-t border-dotted border-control/50 transition-colors group-hover:border-control sm:block" />
                       <span className="w-full shrink-0 sm:w-[240px]">
                         <span className="mb-1 flex items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-faint sm:hidden" aria-hidden>
-                          <span>Asked</span><span>Principle</span>
+                          <span>Question</span><span>Answer</span>
                         </span>
                         <ReasoningTrace entry={entry} />
                       </span>
@@ -127,7 +127,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
 
       <div className="mt-14 border-t border-line pt-6">
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-ink-faint">
-          The repeated silhouettes make the editorial classification visible; they do not claim that each line was measured independently or that the four patterns are exhaustive. The final group remains open because its variables do not resolve to one answer.
+          These four groups make the list easier to scan. They are not the only ways to answer a design question, and they have not been tested as a formal system.
         </p>
       </div>
     </div>

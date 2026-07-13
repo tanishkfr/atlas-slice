@@ -15,10 +15,10 @@ type Props = {
 }
 
 const descriptions: Record<Entry['kind'], string> = {
-  branch: 'Conditional branch: two alternatives remain live and converge on a principle.',
-  misconception: 'Misconception reversal: an initial belief crosses the axis and settles into a correction.',
-  'rule-inversion': 'Rule inversion: two opposing cases resolve into a sharper question.',
-  'multi-variable': 'Variable map: multiple strands remain open instead of resolving to one point.',
+  branch: 'Two paths: two valid situations lead to one useful rule.',
+  misconception: 'Common belief, corrected: a reasonable first guess is shown to be wrong.',
+  'rule-inversion': 'Same rule, opposite answers: two examples show why the question needs to be more specific.',
+  'multi-variable': 'Things to weigh: several factors matter, so there is no single answer.',
 }
 
 export function ReasoningTrace({ entry, ghostKind, variableCount = 3, delay = 0, highlight = false }: Props) {
