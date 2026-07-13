@@ -2,11 +2,10 @@
 
 > **Context:** Self-directed research-through-design
 > **Year:** 2026
-> **Duration:** Ongoing in 2026
 > **Role:** Independent designer, researcher, editor, and engineer
 > **Status:** Working research instrument with a supporting single-authored corpus
 > **Tools:** React, TypeScript, Vite, Framer Motion, Tailwind CSS
-> **AI disclosure:** AI-assisted ideation, critique, source discovery, and code iteration; sources were checked against their primary pages, and final concept selection, design decisions, editing, and authorship are by Tanishk Salagame.
+> **AI disclosure:** AI-assisted ideation, critique, source discovery, and code iteration. Final concept selection, scenario design, design decisions, editing, and authorship are by Tanishk Salagame.
 > **Live:** https://atlas-slice.vercel.app/
 > **Source:** https://github.com/tanishkfr/atlas-slice
 
@@ -16,46 +15,78 @@
 
 Atlas asks whether design reasoning can be made inspectable without turning judgment into an answer generator.
 
+## The shift
+
+Atlas began as a library of completed answers to interaction-design questions. The writing was useful, but the visitor remained a reader of finished reasoning.
+
+The project was reorganized around a participatory instrument: state a rule, expose it to pressure, revise it when necessary, and preserve the full lineage. The corpus now supports that interaction instead of acting as the project’s center.
+
 ## Instrument
 
 The visitor writes a principle for one question: when should tapping outside a dialog close it?
 
-Atlas then applies three kinds of pressure:
+Atlas then applies three authored pressures:
 
 1. a near, low-consequence lightbox;
 2. a distant, high-consequence financial transfer;
 3. an orthogonal switch-access case in which “outside tap” is not an available event.
 
-At each pressure, the visitor must say whether the principle held or fractured. A fracture cannot be recorded until the rule itself changes. Every version remains in the trace.
+At each pressure, the visitor records whether the principle held, was refined, or fractured. A hold preserves the wording. A refinement or fracture requires a visible revision. Every version remains available in the completed trace.
 
-## Trial
+Progress persists in the browser, and the completed trace can be copied or downloaded. The artifact’s output is durable enough to inspect after the interaction ends.
 
-The cases are ordered to expose increasingly hidden premises: reversibility, consequence, destination, input modality, and the bodily assumptions inside interface language.
+## Interaction language
 
-Primary-source anchors from W3C and Microsoft support those variables. They do not provide the verdict. Atlas preserves the distinction between evidence that constrains a case and a contribution that organizes reasoning across cases.
+The signature interaction is the revision lineage:
 
-## Result
+- the current wording travels across a pressure rail;
+- changed language appears as a visible before-and-after diff;
+- held, refined, and fractured states remain distinct;
+- the first and final claims stay side by side;
+- reset is deliberate rather than accidental.
 
-The artifact produces no recommended principle. Its result is the distance between the first claim and the last:
-
-- where the claim held;
-- where it fractured;
-- what assumption was named;
-- how the wording moved;
-- which revision lineage now exists.
-
-The trace, not Atlas’s authority, is the output.
+Motion is reserved for movement in the reasoning: a case entering, a branch changing, or a trace drawing into view. Previously read content no longer blurs or recedes.
 
 ## Supporting corpus
 
-A wider single-authored corpus of interaction questions informed this instrument. Its four reasoning shapes remain an editorial lens, not a proven taxonomy. The stress trace is now the project’s center because it asks the reader to reason rather than only read completed reasoning.
+The wider corpus contains 33 single-authored interaction-design arguments. Four recurring reasoning patterns organize it:
+
+1. conditional branch;
+2. misconception reversal;
+3. rule inversion;
+4. variable map.
+
+These patterns are an editorial lens, not a validated taxonomy. The interface labels them directly and explains that repeated silhouettes communicate classification rather than independent measurement.
+
+## Evidence boundary
+
+W3C and Microsoft guidance anchor constraints in the three stress cases. They do not provide Atlas’s verdict.
+
+The wider corpus includes product examples and empirical claims whose verification status is documented separately in [CITATION-AUDIT.md](CITATION-AUDIT.md). Until that audit is cleared and source links are attached, the corpus should be read as authored design argument—not as a verified evidence database.
+
+## Accessibility and resilience
+
+The interface provides:
+
+- real hash routes for back, forward, reload, and direct links;
+- persistent trace state;
+- explicit focus movement after route and case changes;
+- a skip link and semantic page headings;
+- visible keyboard focus and minimum touch targets;
+- reduced-motion behavior;
+- readable text and control contrast;
+- descriptive alternatives for the four reasoning patterns.
 
 ## Limits
 
-The pressure cases are authored and intentionally adversarial. The artifact has not been tested with learners, so it demonstrates a mechanism for practicing transfer without proving that transferable judgment occurred. Independent classification of the supporting corpus has not been conducted.
+The pressure cases are authored, not sampled, and their sequence is intentionally adversarial. Atlas has not been tested with learners, so it demonstrates a mechanism for practicing transfer without claiming that transferable judgment occurred.
 
-## Finding
+Independent classification of the supporting corpus has not been conducted. The project contributes an authored interaction grammar and a working instrument, not a proven learning outcome or universal taxonomy.
 
-Atlas contributes a compact interaction grammar for principle revision: **claim → pressure → hold or fracture → preserved lineage**.
+## Contribution
 
-Its memorable image is a rule traveling across a trace and changing shape under pressure—not a library claiming to know the answer.
+Atlas contributes a compact grammar for principle revision:
+
+**claim → pressure → hold, refine, or fracture → preserved lineage**
+
+Its memorable object is a rule traveling across a trace and changing shape under pressure—not a library claiming to know the answer.

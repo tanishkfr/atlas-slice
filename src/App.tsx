@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft } from '@phosphor-icons/react'
 import { AboutAtlas } from './components/AboutAtlas'
 import { AtlasAnswer } from './components/AtlasAnswer'
 import { AtlasMark } from './components/AtlasMark'
@@ -8,85 +8,131 @@ import { MisconceptionAnswer } from './components/MisconceptionAnswer'
 import { MultiVariableAnswer } from './components/MultiVariableAnswer'
 import { RuleInversionAnswer } from './components/RuleInversionAnswer'
 import { StressTrace } from './components/StressTrace'
-import type { Entry } from './content/entry'
+import { allEntries, type Entry } from './content/entry'
 
 type View = 'stress' | 'corpus' | 'about'
+type Route = { view: View; entry: Entry | null }
 
-function renderAnswer(entry: Entry, query: string) {
+function slugFor(entry: Entry) {
+  return entry.query
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+function routeFromHash(): Route {
+  const path = window.location.hash.replace(/^#\/?/, '')
+  if (path === 'about') return { view: 'about', entry: null }
+  if (path.startsWith('corpus/')) {
+    const slug = path.slice('corpus/'.length)
+    return {
+      view: 'corpus',
+      entry: allEntries.find((candidate) => slugFor(candidate) === slug) ?? null,
+    }
+  }
+  if (path === 'corpus') return { view: 'corpus', entry: null }
+  return { view: 'stress', entry: null }
+}
+
+function renderAnswer(entry: Entry) {
   switch (entry.kind) {
     case 'branch':
-      return <AtlasAnswer key={entry.query} entry={entry} askedQuery={query} />
+      return <AtlasAnswer key={entry.query} entry={entry} askedQuery={entry.query} />
     case 'misconception':
-      return <MisconceptionAnswer key={entry.query} entry={entry} askedQuery={query} />
+      return <MisconceptionAnswer key={entry.query} entry={entry} askedQuery={entry.query} />
     case 'rule-inversion':
-      return <RuleInversionAnswer key={entry.query} entry={entry} askedQuery={query} />
+      return <RuleInversionAnswer key={entry.query} entry={entry} askedQuery={entry.query} />
     case 'multi-variable':
-      return <MultiVariableAnswer key={entry.query} entry={entry} askedQuery={query} />
+      return <MultiVariableAnswer key={entry.query} entry={entry} askedQuery={entry.query} />
   }
 }
 
 function App() {
-  const reduce = useReducedMotion() ?? false
-  const [view, setView] = useState<View>('stress')
-  const [asked, setAsked] = useState<{ query: string; entry: Entry } | null>(null)
+  const [route, setRoute] = useState<Route>(routeFromHash)
+  const mainRef = useRef<HTMLElement>(null)
+  const hasMounted = useRef(false)
 
-  function open(next: View) {
-    setAsked(null)
-    setView(next)
-    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
-  }
+  useEffect(() => {
+    const syncRoute = () => setRoute(routeFromHash())
+    window.addEventListener('hashchange', syncRoute)
+    return () => window.removeEventListener('hashchange', syncRoute)
+  }, [])
 
-  function ask(query: string, entry: Entry) {
-    setAsked({ query, entry })
-    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true
+      return
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' })
+    window.requestAnimationFrame(() => mainRef.current?.focus({ preventScroll: true }))
+  }, [route])
+
+  function navigate(view: View, entry: Entry | null = null) {
+    const nextHash = entry ? `#/corpus/${slugFor(entry)}` : `#/${view}`
+    if (window.location.hash === nextHash) {
+      setRoute({ view, entry })
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      mainRef.current?.focus({ preventScroll: true })
+      return
+    }
+    window.location.hash = nextHash
   }
 
   return (
     <div className="min-h-screen bg-paper">
-      <header className="flex items-center justify-between border-b border-line px-6 py-6 sm:px-10">
-        <button type="button" onClick={() => open('stress')} className="group inline-flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-          <AtlasMark />
-          <span className="font-serif text-sm tracking-wide text-ink-soft transition-colors group-hover:text-ink">
-            Atlas <span className="hidden text-ink-faint sm:inline">· principles under pressure</span>
-          </span>
-        </button>
-        <nav className="flex items-center gap-5 text-sm sm:gap-7" aria-label="Atlas sections">
-          <NavButton active={!asked && view === 'stress'} onClick={() => open('stress')}>Stress trace</NavButton>
-          <NavButton active={!asked && view === 'corpus'} onClick={() => open('corpus')}>Corpus</NavButton>
-          <NavButton active={!asked && view === 'about'} onClick={() => open('about')}>About</NavButton>
-        </nav>
+      <a href="#main-content" onClick={(event) => { event.preventDefault(); mainRef.current?.focus() }} className="fixed left-4 top-3 z-50 -translate-y-20 rounded-sm bg-ink px-4 py-2 text-sm font-medium text-paper transition-transform focus:translate-y-0">
+        Skip to content
+      </a>
+
+      <header className="border-b border-line px-4 sm:px-8">
+        <div className="mx-auto flex min-h-20 w-full max-w-6xl items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => navigate('stress')}
+            className="group inline-flex min-h-11 items-center gap-2 rounded-sm px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            aria-label="Atlas home: stress trace"
+          >
+            <AtlasMark />
+            <span className="font-serif text-base tracking-wide text-ink-soft transition-colors group-hover:text-ink">
+              Atlas <span className="hidden text-ink-faint lg:inline">· principles under pressure</span>
+            </span>
+          </button>
+          <nav className="flex items-center gap-0.5 text-sm sm:gap-3" aria-label="Atlas sections">
+            <NavButton active={route.view === 'stress'} onClick={() => navigate('stress')}>
+              <span className="sm:hidden">Trace</span><span className="hidden sm:inline">Stress trace</span>
+            </NavButton>
+            <NavButton active={route.view === 'corpus'} onClick={() => navigate('corpus')}>Corpus</NavButton>
+            <NavButton active={route.view === 'about'} onClick={() => navigate('about')}>About</NavButton>
+          </nav>
+        </div>
       </header>
 
-      <main className="flex flex-col items-center px-6 pt-12 sm:px-10 sm:pt-16">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={asked ? `answer-${asked.entry.query}` : view}
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.24 }}
-            className="flex w-full flex-col items-center"
-          >
-            {asked ? (
-              <div className="flex w-full flex-col items-center pb-28">
-                {renderAnswer(asked.entry, asked.query)}
-                <button type="button" onClick={() => setAsked(null)} className="mt-12 text-sm text-ink-faint underline decoration-line underline-offset-4 hover:text-ink">
-                  Return to the corpus
+      <main id="main-content" ref={mainRef} tabIndex={-1} className="flex flex-col items-center px-5 pt-10 outline-none sm:px-10 sm:pt-16">
+        <div className="flex w-full flex-col items-center">
+          {route.entry ? (
+            <div className="flex w-full flex-col items-center pb-28">
+              <div className="mb-9 w-full max-w-2xl">
+                <button type="button" onClick={() => navigate('corpus')} className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
+                  <ArrowLeft size={14} weight="bold" /> Back to corpus
                 </button>
               </div>
-            ) : view === 'stress' ? (
-              <StressTrace />
-            ) : view === 'corpus' ? (
-              <div className="flex w-full flex-col items-center pb-28">
-                <Figure onBack={() => open('stress')} onAsk={ask} />
-              </div>
-            ) : (
-              <div className="flex w-full flex-col items-center pb-28">
-                <AboutAtlas onBack={() => open('stress')} />
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+              {renderAnswer(route.entry)}
+              <button type="button" onClick={() => navigate('corpus')} className="mt-14 inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint underline decoration-line underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper">
+                <ArrowLeft size={14} weight="bold" /> Return to the corpus
+              </button>
+            </div>
+          ) : route.view === 'stress' ? (
+            <StressTrace />
+          ) : route.view === 'corpus' ? (
+            <div className="flex w-full flex-col items-center pb-28">
+              <Figure onBack={() => navigate('stress')} onAsk={(_query, entry) => navigate('corpus', entry)} />
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center pb-28">
+              <AboutAtlas onBack={() => navigate('stress')} />
+            </div>
+          )}
+        </div>
       </main>
     </div>
   )
@@ -98,10 +144,10 @@ function NavButton({ active, onClick, children }: { active: boolean; onClick: ()
       type="button"
       onClick={onClick}
       aria-current={active ? 'page' : undefined}
-      className={`relative rounded-sm pb-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${active ? 'text-ink' : 'text-ink-faint hover:text-ink'}`}
+      className={`relative inline-flex min-h-11 items-center rounded-sm px-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${active ? 'text-ink' : 'text-ink-faint hover:text-ink'}`}
     >
       {children}
-      <span className={`absolute inset-x-0 -bottom-px h-px origin-left bg-accent transition-transform ${active ? 'scale-x-100' : 'scale-x-0'}`} />
+      <span aria-hidden className={`absolute inset-x-2 bottom-1.5 h-px origin-left bg-accent transition-transform ${active ? 'scale-x-100' : 'scale-x-0'}`} />
     </button>
   )
 }

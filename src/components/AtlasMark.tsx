@@ -1,27 +1,19 @@
-/**
- * The wordmark's icon: a cartographer's dividers — the actual hinged
- * instrument used to step off and compare distances on a map, open mid-
- * measurement rather than symmetric or at rest. Chosen over an invented
- * abstract glyph because it's a real, specific object with a specific job:
- * measuring one thing against another, which is what every entry in the
- * corpus does. The faint arc is the span the two points are scribing.
- */
 export function AtlasMark() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="18"
+      height="18"
       viewBox="0 0 18 18"
       fill="none"
       aria-hidden
-      className="shrink-0 text-accent transition-transform duration-200 ease-out group-hover:scale-110"
+      className="shrink-0 text-accent transition-colors group-hover:text-ink"
     >
       <path
         d="M4.3 15.1 Q9 17.1 13.5 14.1"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="round"
-        opacity="0.35"
+        opacity="0.45"
       />
       <path d="M9 3 L4.3 15.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <path d="M9 3 L13.5 14.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

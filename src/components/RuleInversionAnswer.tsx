@@ -15,9 +15,8 @@ type RuleInversionAnswerProps = {
  * Pause(held) -> Juxtaposition(case 2, opposes) -> Reveal(sharper question +
  * explanation, together) -> Weight(principle).
  *
- * Deliberately no Commit, no Choice. Per INTERACTION-LANGUAGE.md, Choice is
- * Branch-exclusive and Commit is Misconception's signature — neither belongs
- * here. The active ingredient is cognitive: feeling the tension between two
+ * Deliberately no Commit and no Choice: Choice belongs to branching, while
+ * Commit belongs to misconception. Neither supports this pattern's tension. The active ingredient is cognitive: feeling the tension between two
  * cases that are both true. Case 1 and case 2 use the identical default
  * reveal recipe, not the sharp one — they're peers, not a twist, and giving
  * case 2 a jolt would borrow Misconception's surprise instead of earning

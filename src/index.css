@@ -8,42 +8,49 @@
   --color-paper: #faf8f4;
   --color-paper-dim: #f2efe8;
   --color-ink: #1c1a16;
-  --color-ink-soft: #56514a;
-  --color-ink-faint: #8a8478;
-  --color-line: #e4dfd5;
-  --color-accent: #9a5b23;
-  --color-accent-soft: #f4e9db;
+  --color-ink-soft: #514c45;
+  --color-ink-faint: #6d675e;
+  --color-line: #d8d2c8;
+  --color-control: #8a8478;
+  --color-accent: #92531f;
+  --color-accent-soft: #f4e7d7;
+}
+
+:root {
+  color-scheme: light;
+  font-synthesis: none;
 }
 
 html {
-  /* Paper, with a faint light falling from top-centre — depth and focus, not
-     an aged texture. Barely a shade above the base paper. */
+  min-width: 320px;
   background: radial-gradient(135% 75% at 50% -8%, #fdfcfa 0%, var(--color-paper) 54%);
   background-color: var(--color-paper);
   color: var(--color-ink);
 }
 
 body {
+  min-width: 320px;
   margin: 0;
+  background: transparent;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  position: relative;
 }
 
-/* Paper grain — extremely subtle by design. Adjust only the opacity value
-   below if this needs to move; nothing else about it should change. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.025;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: rgb(146 83 31 / 12%);
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 ::selection {
@@ -55,9 +62,9 @@ body::before {
   *,
   *::before,
   *::after {
+    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

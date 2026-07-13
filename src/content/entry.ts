@@ -99,7 +99,7 @@ export type MultiVariableEntry = {
   keywords: string[]
   /** Sets the "no single answer" expectation immediately, not as a late admission. */
   reframe: string
-  /** 3 to 4 max per INTERACTION-LANGUAGE.md. No natural stopping point beyond that. */
+  /** Keep the set compact enough to compare without turning it into a checklist. */
   variables: Variable[]
   /** Bridges into the closing map: the moment the set becomes a single held structure. */
   mapIntro: string
@@ -1244,17 +1244,7 @@ export const atlasEntries: AtlasEntry[] = [
   stepperEntry,
 ]
 
-// findMatch (QueryInput.tsx) returns the first entry whose keywords match, so
-// order here is match-priority, not authoring order: entries whose keywords
-// are narrow, specific phrases go before topically-adjacent entries whose
-// keywords are broader single words, so a query touching both doesn't get
-// silently claimed by the broader one. typeToConfirmEntry (all five-plus-word
-// phrases) is deliberately checked before deleteConfirmationEntry (whose
-// keywords include the bare word "deleting", which a typed-confirmation
-// query will naturally also contain). Same reasoning for settingsApplyEntry
-// ahead of autoSaveEntry: a realistic settings-apply question ("need a save
-// button") contains autoSaveEntry's own legitimate "save button" keyword,
-// so the more specific, settings-scoped entry has to be checked first.
+// Display order keeps the authored corpus stable across the survey and direct links.
 export const allEntries: Entry[] = [
   typeToConfirmEntry,
   settingsApplyEntry,
