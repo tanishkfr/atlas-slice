@@ -69,52 +69,37 @@ export function Figure({ onBack, onAsk }: FigureProps) {
         ))}
       </nav>
 
-      <div className="mt-12 hidden items-center gap-3 border-b border-line pb-2 sm:flex" aria-hidden>
-        <span className="min-w-0 flex-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">Question</span>
-        <span className="flex w-[240px] items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
-          <span>Question</span>
-          <span>Answer</span>
-        </span>
-      </div>
-
-      <div className="mt-6 flex flex-col gap-14">
+      <div className="mt-12 flex flex-col gap-14">
         {groups.map((group) => {
           const entries = allEntries.filter((entry) => entry.kind === group.kind)
           return (
             <section key={group.kind} id={`pattern-${group.kind}`} className="scroll-mt-6">
-              <div className="mb-3 border-b border-line pb-4">
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h2 className="font-serif text-2xl text-ink">{group.title}</h2>
-                  <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
-                    {entries.length} {entries.length === 1 ? 'example' : 'examples'}
-                  </p>
+              <div className="mb-3 grid gap-4 border-b border-line pb-4 sm:grid-cols-[minmax(0,1fr)_240px] sm:items-end">
+                <div>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <h2 className="font-serif text-2xl text-ink">{group.title}</h2>
+                    <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
+                      {entries.length} {entries.length === 1 ? 'example' : 'examples'}
+                    </p>
+                  </div>
+                  <p className="mt-1 max-w-2xl text-sm leading-relaxed text-ink-faint">{group.description}</p>
                 </div>
-                <p className="mt-1 max-w-2xl text-sm leading-relaxed text-ink-faint">{group.description}</p>
+                <ReasoningTrace ghostKind={group.kind} />
               </div>
 
-              <ul className="flex flex-col">
+              <ul className="flex flex-col border-t border-line">
                 {entries.map((entry) => (
-                  <li key={entry.query}>
+                  <li key={entry.query} className="border-b border-line">
                     <button
                       type="button"
                       onClick={() => onAsk(entry.query, entry)}
-                      className="group flex min-h-14 w-full flex-col gap-2 rounded-sm py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:flex-row sm:items-center sm:gap-3"
+                      className="group flex min-h-16 w-full flex-col items-start gap-2 rounded-sm py-4 text-left transition-colors hover:bg-paper-dim/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper sm:flex-row sm:items-center sm:gap-4 sm:px-2"
                     >
                       <span className="min-w-0 flex-1 font-serif text-base leading-snug text-ink-soft transition-colors group-hover:text-ink">
                         {entry.query}
-                        <ArrowRight
-                          size={14}
-                          weight="bold"
-                          aria-hidden
-                          className="ml-1 inline -translate-x-1 align-[-0.05em] opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100"
-                        />
                       </span>
-                      <span aria-hidden className="hidden h-0 min-w-4 flex-1 self-center border-t border-dotted border-control/50 transition-colors group-hover:border-control sm:block" />
-                      <span className="w-full shrink-0 sm:w-[240px]">
-                        <span className="mb-1 flex items-center justify-between font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-faint sm:hidden" aria-hidden>
-                          <span>Question</span><span>Answer</span>
-                        </span>
-                        <ReasoningTrace entry={entry} />
+                      <span className="inline-flex min-h-11 shrink-0 items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-accent">
+                        Read answer <ArrowRight size={14} weight="bold" aria-hidden />
                       </span>
                     </button>
                   </li>

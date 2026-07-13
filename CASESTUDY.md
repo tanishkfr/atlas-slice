@@ -1,4 +1,4 @@
-# Atlas — Rule Test 01
+# Atlas — Rule Test
 
 > **Context:** Self-directed research-through-design
 > **Year:** 2026
@@ -23,7 +23,7 @@ The project was reorganized around an interactive rule test: write a rule, try i
 
 ## Rule test
 
-The visitor writes a rule for one question: when should tapping outside a dialog close it? A restart rotates to a different sentence starter while keeping the same question and its three matching examples.
+The visitor writes a rule for one question: when should tapping outside a dialog close it? A restart rotates to a different suggested starting rule while keeping the same question and its three matching examples.
 
 Atlas then shows three examples:
 

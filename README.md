@@ -8,12 +8,12 @@ Atlas does not grade the answer or generate a “correct” rule. It keeps the f
 
 ## The main activity
 
-1. Finish a sentence about when tapping outside a dialog should close it.
+1. Edit a suggested rule about when tapping outside a dialog should close it.
 2. Try the rule in a similar example, a high-risk example, and an accessibility example.
 3. Keep the wording if the rule still works, or rewrite it if it needs to change.
 4. Review, copy, or download the result.
 
-Progress is saved in the browser. Starting over rotates to a different sentence starter. Text areas grow with the answer but cannot be dragged or manually resized.
+Progress is saved in the browser. Starting over rotates to a different suggested rule. Text areas grow with the answer but cannot be dragged or manually resized.
 
 ## The 33 design examples
 

@@ -50,12 +50,12 @@ type Session = {
   trace: TracePoint[]
 }
 
-const STORAGE_KEY = 'atlas-stress-trace-v2'
+const STORAGE_KEY = 'atlas-stress-trace-v3'
 const STARTER_KEY = 'atlas-stress-starter-v1'
 const starters = [
-  'Tapping outside a dialog should close it when...',
-  'A dialog should ignore outside taps unless...',
-  'People should be able to leave a dialog by tapping outside when...',
+  'Tapping outside a dialog should close it when leaving will not lose work.',
+  'A dialog should ignore outside taps unless leaving is clearly safe.',
+  'People should be able to close a dialog by tapping outside when the background is a meaningful destination.',
 ]
 
 const pressureCases: PressureCase[] = [
@@ -159,16 +159,22 @@ function loadSession(): Session {
   }
 }
 
+function loadInitialSession(): Session {
+  const saved = loadSession()
+  return saved.started || saved.seed
+    ? saved
+    : { ...saved, seed: starters[loadStarterIndex()] }
+}
+
 export function StressTrace({ onBrowseExamples }: StressTraceProps) {
   const reduce = useReducedMotion() ?? false
-  const [session, setSession] = useState<Session>(loadSession)
+  const [session, setSession] = useState<Session>(loadInitialSession)
   const [starterIndex, setStarterIndex] = useState(loadStarterIndex)
   const [confirmReset, setConfirmReset] = useState(false)
   const [shareStatus, setShareStatus] = useState('')
   const nextHeadingRef = useRef<HTMLHeadingElement>(null)
 
   const { seed, started, draft, note, trace } = session
-  const starter = starters[starterIndex]
   const activeCase = pressureCases[trace.length]
   const previousPrinciple = trace.length ? trace[trace.length - 1].principle : seed
   const hasRevision = draft.trim() !== previousPrinciple.trim()
@@ -208,6 +214,7 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
     if (verdict === 'held' && hasRevision) return
     if (verdict !== 'held' && !hasRevision) return
 
+    setConfirmReset(false)
     setSession((current) => ({
       ...current,
       trace: [
@@ -225,11 +232,12 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
   }
 
   function showNextStarter() {
-    setStarterIndex((current) => {
-      const next = (current + 1) % starters.length
-      window.localStorage.setItem(STARTER_KEY, String(next))
-      return next
-    })
+    const next = (starterIndex + 1) % starters.length
+    setStarterIndex(next)
+    setSession((current) => (
+      current.started ? current : { ...current, seed: starters[next], draft: '' }
+    ))
+    window.localStorage.setItem(STARTER_KEY, String(next))
   }
 
   function reset() {
@@ -243,7 +251,7 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
 
   function traceAsText() {
     const lines = [
-      'Atlas — Rule Test 01',
+      'Atlas — Rule Test',
       '',
       'Question',
       'Should tapping outside a dialog close it?',
@@ -292,7 +300,7 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
       <div className="grid gap-9 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
         <div>
           <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent">
-            Rule test 01
+            Rule test
           </p>
           <h1 className="mt-3 max-w-3xl text-balance font-serif text-4xl leading-[1.06] text-ink sm:text-6xl">
             Test a design rule against three very different examples.
@@ -321,18 +329,18 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
       {!started ? (
         <section className="mt-14 border-y border-line py-9 sm:mt-16 sm:py-10">
           <label htmlFor="seed-principle" className="font-mono text-[11px] font-medium uppercase tracking-[0.13em] text-ink-faint">
-            Finish this sentence
+            Your starting rule
           </label>
           <div className="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end">
             <div className="flex-1">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="font-serif text-xl text-ink-soft">{starter}</p>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm text-ink-faint">Edit this rule before you begin.</p>
                 <button
                   type="button"
                   onClick={showNextStarter}
                   className="min-h-11 rounded-sm text-xs font-medium text-ink-faint underline decoration-line underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  Show another starter
+                  Try a different starting rule
                 </button>
               </div>
               <AutoGrowTextarea
@@ -340,7 +348,7 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
                 value={seed}
                 onChange={(event) => update({ seed: event.target.value })}
                 rows={2}
-                placeholder="Complete the sentence in your own words"
+                placeholder="Write a complete rule"
                 className="mt-2 w-full border-0 border-b-2 border-ink bg-transparent px-0 py-2 font-serif text-2xl leading-snug text-ink outline-none placeholder:text-ink-faint focus-visible:border-accent"
               />
             </div>
@@ -358,6 +366,16 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
       ) : (
         <>
           <TraceRail seed={seed} trace={trace} complete={complete} />
+          {!complete && (
+            <ResetControl
+              confirm={confirmReset}
+              label="Start over"
+              onRequest={() => setConfirmReset(true)}
+              onCancel={() => setConfirmReset(false)}
+              onReset={reset}
+              className="mt-4"
+            />
+          )}
 
           <AnimatePresence mode="wait">
             {!complete && activeCase ? (
@@ -441,36 +459,36 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
                     className="mt-2 min-h-11 w-full border-0 border-b border-control bg-transparent py-2 text-sm text-ink outline-none placeholder:text-ink-faint focus-visible:border-accent"
                   />
 
-                  <div className="mt-7 grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose what happened to your rule">
+                  <p className="mt-6 text-sm leading-relaxed text-ink-faint">
+                    {hasRevision
+                      ? 'You changed the rule. Was it a small correction, or did the old rule fail?'
+                      : 'Keep the same words if the rule still works. Edit the rule first if it needs to change.'}
+                  </p>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose what happened to your rule">
                     <VerdictButton
                       icon={<Check size={17} />}
-                      label="It still works"
-                      description="Same wording"
+                      label="Still works"
+                      description="Keep the same words"
                       disabled={!draft.trim() || hasRevision}
                       onClick={() => commit('held')}
                     />
                     <VerdictButton
                       icon={<PencilSimple size={17} className="text-accent" />}
-                      label="I changed it"
-                      description="Better wording"
+                      label="Small change"
+                      description="I adjusted the rule"
                       disabled={!draft.trim() || !hasRevision}
                       onClick={() => commit('refined')}
                       accent
                     />
                     <VerdictButton
                       icon={<Lightning size={17} className="text-accent" />}
-                      label="It breaks"
+                      label="Needs a new rule"
                       description="The old rule failed"
                       disabled={!draft.trim() || !hasRevision}
                       onClick={() => commit('fractured')}
                       accent
                     />
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-ink-faint">
-                    {hasRevision
-                      ? 'You changed the wording. Choose whether the rule improved or the old rule failed.'
-                      : 'Keep the same wording if the rule still works. Change it if the rule needs help.'}
-                  </p>
                 </div>
               </motion.section>
             ) : (
@@ -535,21 +553,14 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
                   })}
                 </ol>
 
-                <div className="mt-12 border-t border-line pt-6">
-                  {!confirmReset ? (
-                    <button type="button" onClick={() => setConfirmReset(true)} className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-ink-faint underline decoration-line underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-                      <ArrowCounterClockwise size={15} /> Test another rule
-                    </button>
-                  ) : (
-                    <div className="flex flex-col items-start gap-3 rounded-sm border border-control p-4 sm:flex-row sm:items-center sm:justify-between">
-                      <p className="text-sm text-ink-soft">This deletes the saved result from this browser.</p>
-                      <div className="flex gap-2">
-                        <button type="button" onClick={() => setConfirmReset(false)} className="min-h-11 rounded-sm px-3 text-sm font-medium text-ink-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">Cancel</button>
-                        <button type="button" onClick={reset} className="min-h-11 rounded-sm bg-ink px-4 text-sm font-medium text-paper hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper">Start over</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <ResetControl
+                  confirm={confirmReset}
+                  label="Test another rule"
+                  onRequest={() => setConfirmReset(true)}
+                  onCancel={() => setConfirmReset(false)}
+                  onReset={reset}
+                  className="mt-12 border-t border-line pt-6"
+                />
               </motion.section>
             )}
           </AnimatePresence>
@@ -590,40 +601,132 @@ function VerdictButton({
   )
 }
 
+function ResetControl({
+  confirm,
+  label,
+  onRequest,
+  onCancel,
+  onReset,
+  className = '',
+}: {
+  confirm: boolean
+  label: string
+  onRequest: () => void
+  onCancel: () => void
+  onReset: () => void
+  className?: string
+}) {
+  return (
+    <div className={className}>
+      {!confirm ? (
+        <button
+          type="button"
+          onClick={onRequest}
+          className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-ink-faint underline decoration-line underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <ArrowCounterClockwise size={15} /> {label}
+        </button>
+      ) : (
+        <div className="flex flex-col items-start gap-3 rounded-sm border border-control p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-ink-soft">
+            This deletes your saved progress and starts with a different rule.
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="min-h-11 rounded-sm px-3 text-sm font-medium text-ink-soft hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={onReset}
+              className="min-h-11 rounded-sm bg-ink px-4 text-sm font-medium text-paper hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              Delete and start over
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function TraceRail({ seed, trace, complete }: { seed: string; trace: TracePoint[]; complete: boolean }) {
   const points = [
-    { label: 'Start', fullLabel: 'Starting rule', verdict: null as Verdict | null },
-    ...trace.map((point, index) => ({
-      label: pressureCases[index].shortLabel,
-      fullLabel: `${pressureCases[index].distance}: ${verdictLabels[point.verdict]}`,
-      verdict: point.verdict,
-    })),
+    {
+      label: 'Start',
+      fullLabel: 'Starting rule: complete',
+      verdict: null as Verdict | null,
+      status: 'complete' as const,
+    },
+    ...pressureCases.map((pressure, index) => {
+      const point = trace[index]
+      const status = point ? 'complete' : !complete && index === trace.length ? 'current' : 'upcoming'
+      return {
+        label: pressure.shortLabel,
+        fullLabel: point
+          ? `${pressure.distance}: ${verdictLabels[point.verdict]}`
+          : `${pressure.distance}: ${status === 'current' ? 'current step' : 'upcoming'}`,
+        verdict: point?.verdict ?? null,
+        status,
+      }
+    }),
   ]
 
   return (
     <section className="mt-12" aria-label="Rule test progress">
-      <ol className="flex items-start gap-2 overflow-x-auto pb-3">
+      <div className="-mx-1 overflow-x-auto px-1 pb-3">
+        <ol className="flex min-w-[500px] items-start gap-2">
         {points.map((point, index) => (
-          <li key={`${point.label}-${index}`} className="flex min-w-0 flex-1 items-center last:flex-none" aria-label={point.fullLabel}>
+          <li
+            key={point.label}
+            className="flex min-w-0 flex-1 items-center last:flex-none"
+            aria-label={point.fullLabel}
+            aria-current={point.status === 'current' ? 'step' : undefined}
+          >
             <div className="flex shrink-0 flex-col items-center gap-2">
-              <span className={`flex h-10 w-10 items-center justify-center rounded-full border text-xs ${point.verdict === 'fractured' ? 'border-accent bg-accent text-paper' : point.verdict === 'refined' ? 'border-accent bg-accent-soft text-accent' : 'border-ink bg-paper text-ink'}`}>
-                {point.verdict === 'fractured' ? <Lightning size={14} weight="fill" /> : point.verdict === 'refined' ? <PencilSimple size={14} weight="bold" /> : point.verdict === 'held' ? <Check size={14} weight="bold" /> : <GitCommit size={15} />}
+              <span className={`flex h-10 w-10 items-center justify-center rounded-full border text-xs ${
+                point.verdict === 'fractured'
+                  ? 'border-accent bg-accent text-paper'
+                  : point.verdict === 'refined'
+                    ? 'border-accent bg-accent-soft text-accent'
+                    : point.verdict === 'held' || index === 0
+                      ? 'border-ink bg-paper text-ink'
+                      : point.status === 'current'
+                        ? 'border-accent bg-paper text-accent'
+                        : 'border-dashed border-control bg-paper text-ink-faint'
+              }`}>
+                {point.verdict === 'fractured' ? (
+                  <Lightning size={14} weight="fill" />
+                ) : point.verdict === 'refined' ? (
+                  <PencilSimple size={14} weight="bold" />
+                ) : point.verdict === 'held' ? (
+                  <Check size={14} weight="bold" />
+                ) : index === 0 ? (
+                  <GitCommit size={15} />
+                ) : (
+                  index
+                )}
               </span>
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.11em] text-ink-faint">{point.label}</span>
+              <span className={`font-mono text-[11px] font-medium uppercase tracking-[0.11em] ${point.status === 'current' ? 'text-accent' : 'text-ink-faint'}`}>
+                {point.label}
+              </span>
             </div>
-            {index < points.length - 1 && <span aria-hidden className={`mx-2 h-px min-w-8 flex-1 ${points[index + 1].verdict === 'fractured' ? 'bg-accent' : 'bg-ink'}`} />}
+            {index < points.length - 1 && (
+              <span
+                aria-hidden
+                className={`mx-2 h-px min-w-8 flex-1 ${points[index + 1].status === 'upcoming' ? 'border-t border-dashed border-control' : 'bg-ink'}`}
+              />
+            )}
           </li>
         ))}
-        {!complete && (
-          <li className="flex flex-1 items-center" aria-current="step" aria-label={`Next: ${pressureCases[trace.length].distance}`}>
-            <span aria-hidden className="mx-2 h-px min-w-8 flex-1 border-t border-dashed border-control" />
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-dashed border-control font-mono text-[11px] text-ink-faint">
-              {trace.length + 1}
-            </span>
-          </li>
-        )}
-      </ol>
-      <p className="mt-2 max-w-3xl font-serif text-lg leading-snug text-ink-soft">{trace.length ? trace[trace.length - 1].principle : seed}</p>
+        </ol>
+      </div>
+      <p className="mt-2 max-w-3xl font-serif text-lg leading-snug text-ink-soft">
+        {trace.length ? trace[trace.length - 1].principle : seed}
+      </p>
     </section>
   )
 }

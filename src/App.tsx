@@ -90,10 +90,10 @@ function App() {
             type="button"
             onClick={() => navigate('stress')}
             className="group inline-flex min-h-11 items-center gap-2 rounded-sm px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-            aria-label="Atlas home: stress trace"
+            aria-label="Atlas home: rule test"
           >
             <AtlasMark />
-            <span className="font-serif text-base tracking-wide text-ink-soft transition-colors group-hover:text-ink">
+            <span className="hidden font-serif text-base tracking-wide text-ink-soft transition-colors group-hover:text-ink sm:inline">
               Atlas <span className="hidden text-ink-faint lg:inline">· test a design rule</span>
             </span>
           </button>
