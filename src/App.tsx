@@ -59,6 +59,14 @@ function App() {
   }, [])
 
   useEffect(() => {
+    document.title = route.entry
+      ? `${route.entry.query} — Atlas`
+      : route.view === 'corpus'
+        ? `${allEntries.length} Design Examples — Atlas`
+        : route.view === 'about'
+          ? 'About Atlas'
+          : 'Atlas — Test a Design Rule'
+
     if (!hasMounted.current) {
       hasMounted.current = true
       return

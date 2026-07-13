@@ -35,6 +35,13 @@ const groups: {
 ]
 
 export function Figure({ onBack, onAsk }: FigureProps) {
+  function goToGroup(kind: Entry['kind']) {
+    const section = document.getElementById(`pattern-${kind}`)
+    const heading = document.getElementById(`heading-${kind}`)
+    section?.scrollIntoView({ block: 'start' })
+    window.requestAnimationFrame(() => heading?.focus({ preventScroll: true }))
+  }
+
   return (
     <div className="w-full max-w-4xl">
       <button
@@ -50,7 +57,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
         All design examples · {allEntries.length} total
       </p>
       <h1 className="mt-2 max-w-2xl text-balance font-serif text-3xl leading-snug text-ink sm:text-4xl">
-        Browse all 33 design questions and answers.
+        Browse all {allEntries.length} design questions and answers.
       </h1>
       <p className="mt-4 max-w-2xl text-pretty text-[15px] leading-relaxed text-ink-soft">
         The questions are grouped by four common ways an answer can unfold. These groups are a writing aid, not a proven system. Open any question to read the full answer.
@@ -61,7 +68,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
           <button
             type="button"
             key={group.kind}
-            onClick={() => document.getElementById(`pattern-${group.kind}`)?.scrollIntoView({ block: 'start' })}
+            onClick={() => goToGroup(group.kind)}
             className="inline-flex min-h-11 items-center rounded-full border border-control px-3 text-sm font-medium text-ink-soft transition-colors hover:border-accent hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {group.title}
@@ -77,7 +84,7 @@ export function Figure({ onBack, onAsk }: FigureProps) {
               <div className="mb-3 grid gap-4 border-b border-line pb-4 sm:grid-cols-[minmax(0,1fr)_240px] sm:items-end">
                 <div>
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h2 className="font-serif text-2xl text-ink">{group.title}</h2>
+                    <h2 id={`heading-${group.kind}`} tabIndex={-1} className="font-serif text-2xl text-ink outline-none">{group.title}</h2>
                     <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">
                       {entries.length} {entries.length === 1 ? 'example' : 'examples'}
                     </p>
