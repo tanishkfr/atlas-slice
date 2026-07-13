@@ -81,8 +81,8 @@ export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerPr
                 Less displacement than the default reveal, not more — a smaller, quicker
                 arrival reads as sudden without reading as "an animation happened." */}
             <motion.p
-              initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(1px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              initial={reduceMotion ? false : { opacity: 0, y: 3 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ type: 'spring', duration: 0.22, bounce: 0, delay: 0.1 }}
               className="mt-2 text-pretty font-serif text-2xl text-ink sm:text-3xl"
             >
@@ -97,7 +97,7 @@ export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerPr
               transition={{ duration: 0.3, delay: 0.15 }}
               className="mt-2 text-sm text-ink-faint line-through decoration-ink-faint/60"
             >
-              "{entry.mirrorClaim}"
+              “{entry.mirrorClaim}”
             </motion.p>
           </TrackedBeat>
 

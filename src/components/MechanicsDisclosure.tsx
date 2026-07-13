@@ -24,7 +24,7 @@ export function MechanicsDisclosure({ mechanics }: MechanicsDisclosureProps) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex items-center gap-2 rounded-sm text-sm font-medium text-ink-soft transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        className="flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-ink-soft transition-colors duration-150 hover:text-ink cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <motion.span
           animate={{ rotate: open ? 90 : 0 }}

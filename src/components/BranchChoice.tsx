@@ -33,11 +33,11 @@ export function BranchChoice({
               type="button"
               onClick={() => onSelect(branch.value)}
               className={[
-                'flex-1 rounded-sm border px-4 py-3 text-left text-[15px] leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
+                'min-h-12 flex-1 rounded-sm border px-4 py-3 text-left text-[15px] leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
                 isSelected
                   ? 'border-accent bg-accent-soft/70 text-ink'
-                  : 'border-line text-ink-soft hover:border-ink/30',
-                isDimmed ? 'opacity-45' : 'opacity-100',
+                  : 'border-control text-ink-soft hover:border-accent',
+                isDimmed ? 'opacity-60' : 'opacity-100',
               ].join(' ')}
             >
               {branch.choiceLabel}

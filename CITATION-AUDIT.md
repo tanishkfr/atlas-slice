@@ -1,10 +1,9 @@
 # Citation audit
 
-Every empirical claim in the corpus, sorted by how much it needs a real,
-linkable source before Atlas can be handed to a skeptical reader. This exists
-because two citations have already shipped **backwards** (see About → "Evidence,
-wrong in both directions"), and at 33 entries a single bad source is a
-meaningful fraction of the whole.
+Every empirical claim in the corpus, sorted by how urgently it needs a real,
+linkable source before Atlas can be handed to a skeptical reader. Two citations
+previously shipped **backwards**; at 33 entries, a single bad source materially
+weakens the whole.
 
 Rules for clearing an item:
 - A claim that names a **study, statistic, or standard** needs a URL that a

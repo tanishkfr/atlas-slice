@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { Copy, Check } from '@phosphor-icons/react'
+import { useEffect, useState } from 'react'
+import { Check, Copy, WarningCircle } from '@phosphor-icons/react'
 
 type PrincipleCardProps = {
   principle: string
@@ -8,70 +7,43 @@ type PrincipleCardProps = {
 }
 
 export function PrincipleCard({ principle, bridge }: PrincipleCardProps) {
-  const [copied, setCopied] = useState(false)
-  const reduceMotion = useReducedMotion()
+  const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle')
+
+  useEffect(() => {
+    if (status !== 'copied') return
+    const id = window.setTimeout(() => setStatus('idle'), 1800)
+    return () => window.clearTimeout(id)
+  }, [status])
 
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(principle)
-      setCopied(true)
-      window.setTimeout(() => setCopied(false), 1800)
+      setStatus('copied')
     } catch {
-      // clipboard access denied, fail silently, the text is still selectable
+      setStatus('error')
     }
   }
 
   return (
     <div className="relative border-l-2 border-accent py-6 pl-6 pr-4 sm:pl-8 sm:pr-6">
-      {bridge && (
-        <p className="mb-2 text-[15px] text-ink-soft">{bridge}</p>
-      )}
-      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
-        The principle
-      </p>
-      {/* A flat highlighter mark behind the line itself, not a card-wide wash —
-          box-decoration-break keeps the highlight following each wrapped line
-          the way a real highlighter would, rather than boxing the paragraph. */}
+      {bridge && <p className="mb-2 text-[15px] text-ink-soft">{bridge}</p>}
+      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.13em] text-accent">The principle</p>
       <p className="mt-3 font-serif text-2xl leading-snug text-ink sm:text-3xl">
-        <span
-          className="bg-accent-soft px-1 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
-        >
+        <span className="bg-accent-soft px-1 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
           {principle}
         </span>
       </p>
       <button
         type="button"
         onClick={handleCopy}
-        className="mt-4 inline-flex items-center gap-1.5 rounded-sm border border-accent/30 bg-paper/40 px-3 py-1.5 text-xs font-medium text-accent transition-all duration-150 hover:border-accent hover:bg-accent-soft/50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        className="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-sm border border-control bg-paper/50 px-3 py-2 text-xs font-semibold text-accent transition-colors hover:border-accent hover:bg-accent-soft/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
-        <AnimatePresence mode="wait" initial={false}>
-          {copied ? (
-            <motion.span
-              key="check"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-              transition={{ duration: 0.15 }}
-              className="inline-flex items-center gap-1.5"
-            >
-              <Check size={14} weight="bold" />
-              Copied
-            </motion.span>
-          ) : (
-            <motion.span
-              key="copy"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-              transition={{ duration: 0.15 }}
-              className="inline-flex items-center gap-1.5"
-            >
-              <Copy size={14} weight="bold" />
-              Copy principle
-            </motion.span>
-          )}
-        </AnimatePresence>
+        {status === 'copied' ? <Check size={14} weight="bold" /> : status === 'error' ? <WarningCircle size={14} weight="bold" /> : <Copy size={14} weight="bold" />}
+        {status === 'copied' ? 'Copied' : status === 'error' ? 'Copy blocked' : 'Copy principle'}
       </button>
+      <p className="sr-only" aria-live="polite">
+        {status === 'copied' ? 'Principle copied to the clipboard.' : status === 'error' ? 'Clipboard access was blocked. Select the principle text to copy it.' : ''}
+      </p>
     </div>
   )
 }

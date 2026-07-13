@@ -78,10 +78,10 @@ export function TransferExercise({ entry }: TransferExerciseProps) {
                       aria-pressed={isChosen}
                       onClick={() => place(i, side)}
                       className={[
-                        'flex-1 rounded-sm border px-4 py-2.5 text-left text-sm leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
+                        'min-h-12 flex-1 rounded-sm border px-4 py-2.5 text-left text-sm leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
                         isChosen
                           ? 'border-accent bg-accent-soft/70 text-ink'
-                          : 'border-line text-ink-soft hover:border-ink/30',
+                          : 'border-control text-ink-soft hover:border-accent',
                       ].join(' ')}
                     >
                       {pole[side]}
