@@ -31,9 +31,10 @@ export function BranchChoice({
             <button
               key={branch.value}
               type="button"
+              aria-pressed={isSelected}
               onClick={() => onSelect(branch.value)}
               className={[
-                'min-h-12 flex-1 rounded-sm border px-4 py-3 text-left text-[15px] leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
+                'min-h-12 flex-1 cursor-pointer rounded-sm border px-4 py-3 text-left text-[15px] leading-snug transition-[border-color,background-color,color,opacity] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
                 isSelected
                   ? 'border-accent bg-accent-soft/70 text-ink'
                   : 'border-control text-ink-soft hover:border-accent',

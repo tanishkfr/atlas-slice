@@ -147,12 +147,35 @@ function loadSession(): Session {
     if (!raw) return emptySession
     const saved = JSON.parse(raw) as Partial<Session>
     if (!Array.isArray(saved.trace)) return emptySession
+    const seed = typeof saved.seed === 'string' ? saved.seed.trim() : ''
+    const started = saved.started === true && seed.length > 0
+    const trace: TracePoint[] = []
+    if (started) {
+      for (const [index, value] of saved.trace.slice(0, pressureCases.length).entries()) {
+        if (!value || typeof value !== 'object') break
+        const point = value as Partial<TracePoint>
+        if (
+          point.caseId !== pressureCases[index].id ||
+          !['held', 'refined', 'fractured'].includes(point.verdict ?? '') ||
+          typeof point.principle !== 'string' ||
+          !point.principle.trim() ||
+          typeof point.note !== 'string'
+        ) break
+        trace.push({
+          caseId: point.caseId,
+          verdict: point.verdict as Verdict,
+          principle: point.principle.trim(),
+          note: point.note,
+        })
+      }
+    }
+    const fallbackDraft = trace.at(-1)?.principle ?? seed
     return {
-      seed: typeof saved.seed === 'string' ? saved.seed : '',
-      started: Boolean(saved.started),
-      draft: typeof saved.draft === 'string' ? saved.draft : '',
+      seed,
+      started,
+      draft: typeof saved.draft === 'string' ? saved.draft : fallbackDraft,
       note: typeof saved.note === 'string' ? saved.note : '',
-      trace: saved.trace.slice(0, pressureCases.length) as TracePoint[],
+      trace,
     }
   } catch {
     return emptySession
@@ -182,12 +205,12 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
   const versions = useMemo(() => [seed, ...trace.map((point) => point.principle)], [seed, trace])
 
   useEffect(() => {
-    if (!started && !seed && trace.length === 0) {
+    if (!session.started && !session.seed && session.trace.length === 0) {
       window.localStorage.removeItem(STORAGE_KEY)
       return
     }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session))
-  }, [session, seed, started, trace.length])
+  }, [session])
 
   useEffect(() => {
     if (!started) return
@@ -290,8 +313,10 @@ export function StressTrace({ onBrowseExamples }: StressTraceProps) {
     const link = document.createElement('a')
     link.href = url
     link.download = 'atlas-rule-test.txt'
+    document.body.append(link)
     link.click()
-    URL.revokeObjectURL(url)
+    link.remove()
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000)
     setShareStatus('Result downloaded.')
   }
 

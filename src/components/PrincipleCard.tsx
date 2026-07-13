@@ -10,8 +10,8 @@ export function PrincipleCard({ principle, bridge }: PrincipleCardProps) {
   const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle')
 
   useEffect(() => {
-    if (status !== 'copied') return
-    const id = window.setTimeout(() => setStatus('idle'), 1800)
+    if (status === 'idle') return
+    const id = window.setTimeout(() => setStatus('idle'), status === 'copied' ? 1800 : 2600)
     return () => window.clearTimeout(id)
   }, [status])
 

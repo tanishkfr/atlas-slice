@@ -78,7 +78,7 @@ export function TransferExercise({ entry }: TransferExerciseProps) {
                       aria-pressed={isChosen}
                       onClick={() => place(i, side)}
                       className={[
-                        'min-h-12 flex-1 rounded-sm border px-4 py-2.5 text-left text-sm leading-snug transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
+                        'min-h-12 flex-1 cursor-pointer rounded-sm border px-4 py-2.5 text-left text-sm leading-snug transition-[border-color,background-color,color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
                         isChosen
                           ? 'border-accent bg-accent-soft/70 text-ink'
                           : 'border-control text-ink-soft hover:border-accent',
@@ -93,6 +93,10 @@ export function TransferExercise({ entry }: TransferExerciseProps) {
           )
         })}
       </div>
+
+      <p className="sr-only" aria-live="polite">
+        {allPlaced ? 'Your reading is ready below.' : ''}
+      </p>
 
       {/* The reader's placements, read back as a held set — never merged into a
           verdict. Only appears once all three are placed. */}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { MisconceptionEntry } from '../content/entry'
 import { RevealSection } from './RevealSection'
@@ -36,6 +36,13 @@ type MisconceptionAnswerProps = {
 export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerProps) {
   const [guess, setGuess] = useState<'true' | 'false' | null>(null)
   const reduceMotion = useReducedMotion()
+  const responseRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (!guess) return
+    const id = window.requestAnimationFrame(() => responseRef.current?.focus({ preventScroll: true }))
+    return () => window.cancelAnimationFrame(id)
+  }, [guess])
 
   // Every mirrorClaim in the corpus is the false belief being corrected, so
   // guessing "false" is the correct instinct. The reveal that follows was
@@ -67,10 +74,12 @@ export function MisconceptionAnswer({ entry, askedQuery }: MisconceptionAnswerPr
                 "false" guess from an incorrect "true" one. Same quiet weight
                 as the Recede line below, not competing with the contradiction. */}
             <motion.p
+              ref={responseRef}
+              tabIndex={-1}
               initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-              className="text-sm font-medium text-ink-faint"
+              className="text-sm font-medium text-ink-faint outline-none"
             >
               {guessedCorrectly
                 ? "You called it. Here's exactly why:"

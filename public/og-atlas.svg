@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">Atlas — Principles under pressure</title>
-  <desc id="desc">A principle moves through three pressure points, changing from an initial claim to a revised rule.</desc>
+  <title id="title">Atlas — Test a design rule</title>
+  <desc id="desc">A starting rule moves through three different examples and changes when it no longer works.</desc>
   <defs>
     <radialGradient id="paper" cx="50%" cy="0%" r="95%">
       <stop offset="0%" stop-color="#fffefd"/>
@@ -14,17 +14,17 @@
   <circle cx="80" cy="78" r="5" fill="#92531f"/>
   <circle cx="130" cy="74" r="5" fill="#92531f"/>
   <text x="158" y="66" fill="#514c45" font-family="Georgia, serif" font-size="34">Atlas</text>
-  <text x="80" y="176" fill="#92531f" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="3">PRINCIPLES UNDER PRESSURE</text>
-  <text x="80" y="258" fill="#1c1a16" font-family="Georgia, serif" font-size="62">A principle is only as useful</text>
-  <text x="80" y="330" fill="#1c1a16" font-family="Georgia, serif" font-size="62">as the cases it survives.</text>
+  <text x="80" y="176" fill="#92531f" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="3">TEST A DESIGN RULE</text>
+  <text x="80" y="258" fill="#1c1a16" font-family="Georgia, serif" font-size="62">See where a design rule</text>
+  <text x="80" y="330" fill="#1c1a16" font-family="Georgia, serif" font-size="62">still works — and where it changes.</text>
   <line x1="94" y1="455" x2="1035" y2="455" stroke="#d8d2c8" stroke-width="3"/>
   <circle cx="94" cy="455" r="22" fill="#faf8f4" stroke="#1c1a16" stroke-width="3"/>
   <circle cx="408" cy="455" r="22" fill="#faf8f4" stroke="#1c1a16" stroke-width="3"/>
   <circle cx="722" cy="455" r="22" fill="#f4e7d7" stroke="#92531f" stroke-width="3"/>
   <circle cx="1036" cy="455" r="22" fill="#92531f"/>
-  <text x="77" y="518" fill="#6d675e" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">CLAIM</text>
-  <text x="385" y="518" fill="#6d675e" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">NEAR</text>
-  <text x="679" y="518" fill="#92531f" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">DISTANT</text>
-  <text x="975" y="518" fill="#92531f" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">REVISED</text>
-  <text x="80" y="584" fill="#514c45" font-family="Georgia, serif" font-size="27">Hold · refine · fracture · preserve the lineage</text>
+  <text x="77" y="518" fill="#6d675e" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">START</text>
+  <text x="385" y="518" fill="#6d675e" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">SIMILAR</text>
+  <text x="679" y="518" fill="#92531f" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">HIGH RISK</text>
+  <text x="975" y="518" fill="#92531f" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">ACCESS</text>
+  <text x="80" y="584" fill="#514c45" font-family="Georgia, serif" font-size="27">Write · test · revise · review what changed</text>
 </svg>
