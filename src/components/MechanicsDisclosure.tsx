@@ -33,7 +33,7 @@ export function MechanicsDisclosure({ mechanics }: MechanicsDisclosureProps) {
         >
           <CaretRight size={14} weight="bold" />
         </motion.span>
-        {open ? 'Hide mechanics' : 'Show mechanics'}
+        {open ? 'Hide explanation' : 'Show explanation'}
       </button>
 
       <div

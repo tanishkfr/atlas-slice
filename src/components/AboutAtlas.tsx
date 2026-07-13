@@ -11,57 +11,57 @@ export function AboutAtlas({ onBack }: AboutAtlasProps) {
         onClick={onBack}
         className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm font-medium text-ink-faint transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
-        <ArrowLeft size={14} weight="bold" /> Back to trace
+        <ArrowLeft size={14} weight="bold" /> Back to rule test
       </button>
 
       <p className="mt-9 font-mono text-xs font-medium uppercase tracking-[0.14em] text-accent">About the project</p>
-      <h1 className="mt-2 text-balance font-serif text-4xl leading-tight text-ink sm:text-5xl">Atlas makes revision visible.</h1>
+      <h1 className="mt-2 text-balance font-serif text-4xl leading-tight text-ink sm:text-5xl">Atlas makes changed thinking easy to see.</h1>
       <p className="mt-5 text-pretty font-serif text-xl leading-relaxed text-ink sm:text-2xl">
-        Interaction principles become useful when their assumptions are exposed by cases that do not resemble the one that produced them.
+        A design rule becomes useful only after you try it in situations that are very different from the one where it started.
       </p>
       <p className="mt-5 text-[15px] leading-relaxed text-ink-soft">
-        Atlas is a self-directed research-through-design project by Tanishk Salagame, designed and built in 2026. The work spans interaction design, editorial research, visual systems, prototyping, and front-end engineering.
+        Atlas is an independent design project by Tanishk Salagame, designed and built in 2026. It combines writing, interaction design, visual design, prototyping, and front-end engineering.
       </p>
 
-      <SectionLabel>The instrument</SectionLabel>
+      <SectionLabel>How it works</SectionLabel>
       <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
         <p>
-          You begin with a provisional rule, carry it through a near case, a high-consequence case, and an orthogonal input case, then record whether the rule held, was refined, or fractured. Every version remains in the trace.
+          You write a starting rule, try it in a similar example, a high-risk example, and an accessibility example, then choose whether it still works, needs a change, or breaks. Atlas keeps every version.
         </p>
         <p>
-          Guidance anchors constrain each authored scenario; they do not settle the principle. Atlas produces no recommendation and does not score the visitor. Its output is the lineage of the visitor’s own reasoning.
+          Source links explain important limits in each example, but they do not give you the answer. Atlas does not grade you. It simply shows how your rule changed.
         </p>
       </div>
 
-      <SectionLabel>What changed through making</SectionLabel>
+      <SectionLabel>Why Atlas has two parts</SectionLabel>
       <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
         <p>
-          Atlas began as a library of completed design answers. That made the writing visible but left the visitor passive. The project was reorganized around the stress trace so the central claim could be enacted: a principle has to travel before its assumptions become inspectable.
+          Atlas began as a list of completed design answers. That showed the writing, but gave visitors little to do. The rule test was added so people could try the main idea for themselves.
         </p>
         <p>
-          The {allEntries.length}-question corpus now supports the instrument rather than leading it. Its four reasoning patterns are explicitly presented as a single-author editorial lens—not as a measured or independently validated taxonomy.
+          The {allEntries.length} design examples are still available. They are grouped in four simple answer styles to make them easier to browse. The groups were created by one author and have not been tested as a formal system.
         </p>
       </div>
 
-      <SectionLabel>How to read the work</SectionLabel>
+      <SectionLabel>Where to start</SectionLabel>
       <ol className="mt-6 space-y-4 border-l border-line pl-6 text-[15px] leading-relaxed text-ink-soft">
-        <li><strong className="font-semibold text-ink">1 · Use the trace.</strong> The interaction is the primary artifact.</li>
-        <li><strong className="font-semibold text-ink">2 · Inspect the lineage.</strong> The changed wording matters more than a final verdict.</li>
-        <li><strong className="font-semibold text-ink">3 · Browse the corpus.</strong> It shows the authored patterns that informed the instrument.</li>
-        <li><strong className="font-semibold text-ink">4 · Read the limits.</strong> The project distinguishes what it demonstrates from what remains untested.</li>
+        <li><strong className="font-semibold text-ink">1 · Test a rule.</strong> Start with the main activity.</li>
+        <li><strong className="font-semibold text-ink">2 · Review your changes.</strong> Look at what you rewrote and why.</li>
+        <li><strong className="font-semibold text-ink">3 · Browse all 33 examples.</strong> Open any design question to read the full answer.</li>
+        <li><strong className="font-semibold text-ink">4 · Read what is still untested.</strong> The project is clear about what it can and cannot prove.</li>
       </ol>
 
       <SectionLabel>Limits</SectionLabel>
       <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-ink-soft">
         <p>
-          The pressure cases are authored, not sampled, and their order is deliberately adversarial. Atlas has not been tested with learners, so it demonstrates a mechanism for practicing transfer without claiming that transfer occurred.
+          The three test examples were written for this project, not taken from a user study. Atlas has not been tested with learners, so it shows a way to practise applying a rule without claiming that learning has been proven.
         </p>
         <p>
-          The corpus contains authored arguments and product examples. Its citation audit remains part of the project record; corpus patterns should not be read as empirical proof or universal design rules.
+          The 33 examples contain written arguments and product references. A separate citation audit records what still needs checking, so these examples should not be treated as universal design rules.
         </p>
       </div>
 
-      <SectionLabel>Authorship and AI disclosure</SectionLabel>
+      <SectionLabel>Authorship and AI use</SectionLabel>
       <p className="mt-6 text-[15px] leading-relaxed text-ink-soft">
         AI assisted ideation, critique, source discovery, and code iteration. Final concept selection, scenario design, editing, visual direction, implementation decisions, and authorship are by Tanishk Salagame.
       </p>
